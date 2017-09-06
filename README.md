@@ -1,2 +1,2 @@
 # sbit
-Simple Build In Test
+Simple Build In Tests
