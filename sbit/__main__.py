@@ -1,0 +1,67 @@
+#
+# The contents of this file are subject to the Apache 2.0 license you may not
+# use this file except in compliance with the License.
+#
+# Software distributed under the License is distributed on an "AS IS" basis,
+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+# for the specific language governing rights and limitations under the
+# License.
+#
+#
+# Copyright 2017 DFT project (http://www.debianfirmwaretoolkit.org).
+# All rights reserved. Use is subject to license terms.
+#
+#
+# Contributors list :
+#
+#    William Bonnet     wllmbnnt@gmail.com, wbonnet@theitmakers.com
+#
+#
+
+
+""" This module is the main entry point for this progrm. It is in charge of creating a parsing,
+process the command line and run the action.
+"""
+
+import sys
+import time
+import cli
+
+def main():
+  """
+  Main entry point for the script. Create a parser, process the command line,
+  and run it
+  """
+
+  # Create the Cli object in charge of parsing command line, then select and
+  # call the run method
+  parser = cli.Cli()
+
+  # If a command has been passed on the cli, then forward it, otherwise use
+  # default --help value to ensure to display help
+  if len(sys.argv) >= 2:
+    parser.parse(sys.argv[1])
+  else:
+    args = ["__help__", "-h"]
+    parser.parse(args)
+
+  # Start counting the execution time
+  time_starting = time.time()
+
+  # Execute the program and catch return code
+  ret_code = parser.run()
+
+  # Compute execution time
+  time_elapsed = time.time() - time_starting
+  print("\n(Execution time %.2f seconds)" % time_elapsed)
+
+  return ret_code
+
+# That's all folks. All the processing has bee done in the run
+#
+# Check this is code is called from the __main__
+#
+if __name__ == '__main__':
+
+  # End execution et return code from main method
+  sys.exit(main())
