@@ -45,6 +45,7 @@ class Key(Enum):
 
   # Define each and every key and associated string used in the tool
   AGGREGATION_LEVEL = "aggregation_level"
+  ARGS = "args"
   CATEGORY = "category"
   CHECK_LIBRARY = "check-library"
   CHECK_SUITE = "check-suite"
@@ -60,12 +61,12 @@ class Key(Enum):
   OPT_LOG_LEVEL = "--log-level"
   OPT_SUITE_PATH = "--suite-path"
   RUN_SUITE = "run-suite"
+  SCRIPT = "script"
   SHORT_DESCRIPTION = "short-description"
   SUITE_PATH = "suite_path"
   TEST = "test"
-  TEST_ID = "test-id"
-  TEST_SUITE = "test-suite"
   TEST_LIBRARY_PATH = "test_library_path"
+  TEST_SUITE = "test-suite"
   TEST_SUITE_PATH = "test_suite_path"
 
 
@@ -76,7 +77,7 @@ class Key(Enum):
 #
 # -----------------------------------------------------------------------------
 class Configuration(object):
-  """This class defines default configuration for vbit
+  """This class defines default configuration for sbit
 
   The tool configuration contains environment variables used to define
   information such as default working path, etc.
@@ -229,6 +230,10 @@ class TestSuite(object):
         # Yes then, load it
         with open(self.filename, 'r') as working_file:
           self.suite = yaml.load(working_file)
+      else:
+        # No tehn output an error
+        self.logging.critical("The file " + self.filename + " does not exist. Aborting.")
+        exit(1)
 
     # Catch all OSError exceptions that may have occured. Mostly file errors...
     except OSError as exception:
