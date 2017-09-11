@@ -181,7 +181,6 @@ class RunTestSuite(CliCommand):
            + Colors.RESET.value)
     print ("------------------------------------")
     print (" " + categories[0][Key.SHORT_DESCRIPTION.value])
-    print ("")
     msg_buffer = []
     self.execute_category_test_and_recurse(categories[0], output_msg=msg_buffer)
     print ("")
@@ -217,14 +216,28 @@ class RunTestSuite(CliCommand):
       for test in category[Key.TEST.value]:
         # Generate the output message
         test_output = "".join("  " for i in range(current_level))
-        test_output += "   - Executing test : " + test[Key.TEST_ID.value]
+        test_output += "   - Running : " + test[Key.SCRIPT.value]
         test_output += "".join(" " for i in range(64 - len(test_output)))
 
-        # Real test not yet executed, instead do a random sleep
-        time.sleep(random.randrange(2))
+        # Generate the path to the real test
+        script_path = self.cfg.library_path + "/" + test[Key.SCRIPT.value]
+
+        # Check that the script exist and is executable
+        script_ret = -1
+        if not os.path.isfile(script_path) and os.access(script_path, os.X_OK):
+          self.logging.error("Script " + script_path +" does not exist. Mark test as failed.")
+          script_ret = -1
+        # Script exist, we can try to execute it
+        else:
+          # If args are defined, concatenate to the script command line
+          if Key.ARGS.value in test:
+            script_path += " " + test[Key.ARGS.value]
+
+          # Finaly execute the test script
+          script_ret = self.execute_command(script_path)
 
         # And generate a random result
-        if random.randrange(10) >= 3:
+        if script_ret.returncode == 0:
           success_local &= True
           test_output += "[" + Colors.FG_GREEN.value + Colors.BOLD.value + " OK "
           test_output += Colors.RESET.value + "]"

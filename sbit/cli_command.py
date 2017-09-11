@@ -74,14 +74,24 @@ class CliCommand(object):
                                  shell=True, check=True, universal_newlines=False)
 
       # Return the output of the process to the caller
-      return completed.stdout
+      return completed
 
+    # We catch xecutionerror, but continue execution and return completed structure to the caller
+    # It has to be done since we execute tests that can fail. Thus global execution hould not stop
+    # on first error
     except subprocess.CalledProcessError as exception:
-      self.cleanup_installation_files()
-      self.cfg.logging.critical("Error %d occured when executing %s",
+      self.cfg.logging.debug("Error %d occured when executing %s",
                                     exception.returncode, exception.cmd)
       self.cfg.logging.debug("stdout was :")
       self.cfg.logging.debug(exception.stdout)
       self.cfg.logging.debug("stderr was :")
       self.cfg.logging.debug(exception.stderr)
-      exit(1)
+
+      # Return the output of the process to the caller
+      return exception
+
+Gruik mode
+  arreter de retourner l'exception c'est sale
+
+Et ajouter rapidement le hasing de resultat
+
