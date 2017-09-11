@@ -1,0 +1,19 @@
+- category: SBIT
+  short-description: "This test suite contains SBIT example tests #01"
+  test-suite:
+    - category: Systemload
+      short-description: System load associated tets
+      description: Set of tests used to control system load (system, cpu, io, etc)
+      test:
+        - script: "system-load"
+        - script: "cpu-load"
+    - category: Memory
+      short-description: Memory associated tets
+      description: Set of tests used to control memory
+      test:
+        - script: "free-memory"
+    - category: Storage
+      short-description: Storage associated tets
+      description: Set of tests used to control storage
+      test:
+        - script: "harddisk-free-space"
