@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+#
+# The contents of this file are subject to the Apache 2.0 license you may not
+# use this file except in compliance with the License.
+#
+# Software distributed under the License is distributed on an "AS IS" basis,
+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+# for the specific language governing rights and limitations under the
+# License.
+#
+#
+# Copyright 2017 DFT project (http://www.debianfirmwaretoolkit.org).
+# All rights reserved. Use is subject to license terms.
+#
+#
+# Contributors list :
+#
+#    William Bonnet     wllmbnnt@gmail.com, wbonnet@theitmakers.com
+#
+#
+
+# -----------------------------------------------------------------------------
+#
+# @SBIT description short description
+#
+# @SBIT hint  1   Wrong number of CPU
+#
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+#
+# Argument definition
+#
+#    count : 1
+#    arg 1 : Expected number of core (eg: 2 for a dual core system)
+#
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Beginning of test script
+# -----------------------------------------------------------------------------
+
+# Activate "fail fast". Stop on first error encountered.
+set -e
+
+# Retrieve the number of core available
+CORE_COUNT=$(cat /proc/cpuinfo | grep ^processor | wc -l)
+
+# Compare to first args
+if [ ! "$1" == "${CORE_COUNT}" ] ;
+then
+  exit 1
+fi
+
+# Main exit, no error detected, return 0
+exit 0
