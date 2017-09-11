@@ -18,22 +18,19 @@
 #
 #
 
-# ----------------------------------------------------------------------------
-# configuration:
+# Defines the path to the test library to be used. By modifying this value,
+# the default path will be overriden (default is /usr/share/sbit/test-library)
+# and replaced by the value set in the test_library_path variable.
+# test_library_path: "../examples/test-library"
 
-  # Defines the path to the test library to be used. By modifying this value,
-  # the default path will be overriden (default is /usr/share/sbit/test-library)
-  # and replaced by the value set in the test_library_path variable.
-  # test_library_path: "../examples/test-library"
+# The variable aggregation_level defines the default value of the aggregation
+# level. By default this variable is unset, thus all the test results will be
+# displayed.
+# aggreagation_level: 3
 
-  # The variable aggregation_level defines the default value of the aggregation
-  # level. By default this variable is unset, thus all the test results will be
-  # displayed.
-  # aggreagation_level: 3
-
-  # Defines the path to the directory where the test suits are stored. By default
-  # the test_suite_path is not set. This variable is used when a test file is
-  # passed on the command line with location inforamtion (only the filename, no
-  # directory). If the file is not found in the current directory, sbit will search
-  # the file in the directory pointed by the test_suite_library variable.
-  # test_suite_path: "../examples/test-suites"
+# Defines the path to the directory where the test suits are stored. By default
+# the test_suite_path is not set. This variable is used when a test file is
+# passed on the command line with location inforamtion (only the filename, no
+# directory). If the file is not found in the current directory, sbit will search
+# the file in the directory pointed by the test_suite_library variable.
+# test_suite_path: "../examples/test-suites"

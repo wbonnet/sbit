@@ -65,6 +65,8 @@ class Key(Enum):
   TEST = "test"
   TEST_ID = "test-id"
   TEST_SUITE = "test-suite"
+  TEST_LIBRARY_PATH = "test_library_path"
+  TEST_SUITE_PATH = "test_suite_path"
 
 
 
@@ -143,6 +145,26 @@ class Configuration(object):
         with open(self.filename, 'r') as working_file:
           self.configuration = yaml.load(working_file)
 
+          # Now we may have to expand a few paths...
+          # First check if the configurationis really defined
+          if self.configuration is not None:
+            # Yes then we now have to check one by one th different path to expand
+            # First let's process test_library_path
+            if Key.TEST_LIBRARY_PATH.value in self.configuration:
+              # Check if path starts with ~ and need expension
+              if self.configuration[Key.TEST_LIBRARY_PATH.value][0] == "~" \
+              and self.configuration[Key.TEST_LIBRARY_PATH.value][1] == "/":
+                self.configuration[Key.TEST_LIBRARY_PATH.value] = \
+                          os.path.expanduser(self.configuration[Key.TEST_LIBRARY_PATH.value])
+
+            # First let's process test_suite_path
+            if Key.TEST_SUITE_PATH.value in self.configuration:
+              # Check if path starts with ~ and need expension
+              if self.configuration[Key.TEST_SUITE_PATH.value][0] == "~" \
+              and self.configuration[Key.TEST_SUITE_PATH.value][1] == "/":
+                self.configuration[Key.TEST_SUITE_PATH.value] = \
+                          os.path.expanduser(self.configuration[Key.TEST_SUITE_PATH.value])
+
     # Catch all OSError exceptions that may have occured. Mostly file errors...
     except OSError as exception:
       # Call clean up to umount /proc and /dev
@@ -212,4 +234,5 @@ class TestSuite(object):
     except OSError as exception:
       self.logging.critical("Error: " + exception.filename + "- " + exception.strerror)
       exit(1)
+
 
