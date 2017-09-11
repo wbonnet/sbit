@@ -1,0 +1,39 @@
+#
+# The contents of this file are subject to the Apache 2.0 license you may not
+# use this file except in compliance with the License.
+#
+# Software distributed under the License is distributed on an "AS IS" basis,
+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+# for the specific language governing rights and limitations under the
+# License.
+#
+#
+# Copyright 2017 DFT project (http://www.debianfirmwaretoolkit.org).
+# All rights reserved. Use is subject to license terms.
+#
+#
+# Contributors list :
+#
+#    William Bonnet     wllmbnnt@gmail.com, wbonnet@theitmakers.com
+#
+#
+
+# ----------------------------------------------------------------------------
+# configuration:
+
+  # Defines the path to the test library to be used. By modifying this value,
+  # the default path will be overriden (default is /usr/share/sbit/test-library)
+  # and replaced by the value set in the test_library_path variable.
+  # test_library_path: "../examples/test-library"
+
+  # The variable aggregation_level defines the default value of the aggregation
+  # level. By default this variable is unset, thus all the test results will be
+  # displayed.
+  # aggreagation_level: 3
+
+  # Defines the path to the directory where the test suits are stored. By default
+  # the test_suite_path is not set. This variable is used when a test file is
+  # passed on the command line with location inforamtion (only the filename, no
+  # directory). If the file is not found in the current directory, sbit will search
+  # the file in the directory pointed by the test_suite_library variable.
+  # test_suite_path: "../examples/test-suites"
