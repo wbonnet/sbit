@@ -89,9 +89,3 @@ class CliCommand(object):
 
       # Return the output of the process to the caller
       return exception
-
-Gruik mode
-  arreter de retourner l'exception c'est sale
-
-Et ajouter rapidement le hasing de resultat
-
