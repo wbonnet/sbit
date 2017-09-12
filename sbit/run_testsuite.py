@@ -210,6 +210,7 @@ class RunTestSuite(CliCommand):
     success_subtest = True
 
     # Execute test defined at category level
+    print(category)
     if not Key.TEST.value in category:
       logging.debug("No test defined in category " + category[Key.CATEGORY.value])
     else:
@@ -223,10 +224,10 @@ class RunTestSuite(CliCommand):
         script_path = self.cfg.library_path + "/" + test[Key.SCRIPT.value]
 
         # Check that the script exist and is executable
-        script_ret = -1
-        if not os.path.isfile(script_path) and os.access(script_path, os.X_OK):
-          self.logging.error("Script " + script_path +" does not exist. Mark test as failed.")
-          script_ret = -1
+        ret = -1
+        if not os.path.isfile(script_path) or not os.access(script_path, os.X_OK):
+          logging.error("Script " + script_path +" does not exist. Mark test as failed.")
+          ret = -1
         # Script exist, we can try to execute it
         else:
           # If args are defined, concatenate to the script command line
@@ -234,10 +235,10 @@ class RunTestSuite(CliCommand):
             script_path += " " + test[Key.ARGS.value]
 
           # Finaly execute the test script
-          script_ret = self.execute_command(script_path)
+          ret, out, err = self.execute_command(script_path)
 
         # And generate a random result
-        if script_ret.returncode == 0:
+        if ret == 0:
           success_local &= True
           test_output += "[" + Colors.FG_GREEN.value + Colors.BOLD.value + " OK "
           test_output += Colors.RESET.value + "]"

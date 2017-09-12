@@ -74,7 +74,7 @@ class CliCommand(object):
                                  shell=True, check=True, universal_newlines=False)
 
       # Return the output of the process to the caller
-      return completed
+      return completed.returncode, completed.stdout, completed.stderr
 
     # We catch xecutionerror, but continue execution and return completed structure to the caller
     # It has to be done since we execute tests that can fail. Thus global execution hould not stop
@@ -88,4 +88,4 @@ class CliCommand(object):
       self.cfg.logging.debug(exception.stderr)
 
       # Return the output of the process to the caller
-      return exception
+      return exception.returncode, exception.stdout, exception.stderr
