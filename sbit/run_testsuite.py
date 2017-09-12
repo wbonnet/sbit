@@ -180,7 +180,8 @@ class RunTestSuite(CliCommand):
     print ("[+] " + Colors.FG_YELLOW.value + Colors.BOLD.value + categories[0][Key.CATEGORY.value] \
            + Colors.RESET.value)
     print ("------------------------------------")
-    print (" " + categories[0][Key.SHORT_DESCRIPTION.value])
+    if Key.SHORT_DESCRIPTION.value in categories[0]:
+      print (" " + categories[0][Key.SHORT_DESCRIPTION.value])
     msg_buffer = []
     self.execute_category_test_and_recurse(categories[0], output_msg=msg_buffer)
     print ("")
@@ -210,7 +211,6 @@ class RunTestSuite(CliCommand):
     success_subtest = True
 
     # Execute test defined at category level
-    print(category)
     if not Key.TEST.value in category:
       logging.debug("No test defined in category " + category[Key.CATEGORY.value])
     else:
@@ -222,6 +222,7 @@ class RunTestSuite(CliCommand):
 
         # Generate the path to the real test
         script_path = self.cfg.library_path + "/" + test[Key.SCRIPT.value]
+        script_path = os.path.expanduser(script_path)
 
         # Check that the script exist and is executable
         ret = -1
