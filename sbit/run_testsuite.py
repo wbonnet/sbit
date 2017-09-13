@@ -65,7 +65,6 @@ class RunTestSuite(CliCommand):
 
     # Flag used to mark if we use or not the results cache
     # TODO add a cli flag to deactivate it
-    self.use_results_cache = True
 
   # -------------------------------------------------------------------------
   #
@@ -255,7 +254,7 @@ class RunTestSuite(CliCommand):
             script_path += " " + test[Key.ARGS.value]
 
           # If the cache is activated, then store the result in the hash table
-          if self.use_results_cache:
+          if self.cfg.use_results_cache:
             logging.debug("Using result cache")
             # Is the value already in cache ? If not then create the sub hashtable
             # Subtable is used to hash arguments for a given script
@@ -292,7 +291,7 @@ class RunTestSuite(CliCommand):
           local_msg.append(test_output)
 
         # If the cache is activated, then store the result in the hash table
-        if self.use_results_cache:
+        if self.cfg.use_results_cache:
           logging.debug("Using result cache")
           # Is the value already in cache ? If not then create the sub hashtable
           # Subtable is used to hash arguments for a given script

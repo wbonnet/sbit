@@ -53,6 +53,7 @@ class Key(Enum):
   LIBRARY_PATH = "library_path"
   LOG_LEVEL = "log_level"
   LOG_LEVEL_INFO = "INFO"
+  NO_RESULT_CACHE = "no_result_cache"
   OPT_AGGREGATION_LEVEL = "--aggregation-level"
   OPT_CATEGORY = "--category"
   OPT_FAIL_FAST = "--fail-fast"
@@ -60,6 +61,7 @@ class Key(Enum):
   OPT_LIBRARY_PATH = "--library-path"
   OPT_LOG_LEVEL = "--log-level"
   OPT_SUITE_PATH = "--suite-path"
+  OPT_NO_RESULT_CACHE = "--no-result-cache"
   RUN_SUITE = "run-suite"
   SCRIPT = "script"
   DESCRIPTION = "description"
@@ -122,6 +124,13 @@ class Configuration(object):
     # Defines the ggreation level of tests. Default value is None, which means no aggreation
     # The full test tree is output
     self.aggregation_level = None
+
+    # Flag used to mark if result cache is deactivate.
+    # If cache is activated, a given script with a given set of arguments can be run only once.
+    # If cache is deactivated, the same script with the same arguments can be run many times
+    # A given script with different arguments will always run several time (once per set of 
+    # diffrent argument values)
+    self.use_results_cache = True
 
   # ---------------------------------------------------------------------------
   #

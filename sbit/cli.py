@@ -55,7 +55,7 @@ class Cli(object):
     """
 
     # Current version
-    self.version = "0.1.1"
+    self.version = "0.2.0"
 
     # Create the internal parser from argparse
     self.parser = argparse.ArgumentParser(description=textwrap.dedent('''\
@@ -152,6 +152,10 @@ XXX
     # Retrieve the aggregation level
     if self.args.aggregation_level != None:
       self.cfg.aggregation_level = self.args.aggregation_level
+
+    # Set the results cache flag
+    if self.args.no_result_cache != None:
+      self.cfg.use_results_cache = not self.args.no_result_cache
 
     # Retrieve the failfast flag
     if self.args.fail_fast != None:
@@ -272,6 +276,12 @@ XXX
                              action='store',
                              dest=Key.AGGREGATION_LEVEL.value,
                              help="defines the test depth used for results aggreation")
+
+    # Defines the reverse order search path
+    self.parser.add_argument(Key.OPT_NO_RESULT_CACHE.value,
+                             action='store_true',
+                             dest=Key.NO_RESULT_CACHE.value,
+                             help="deactivate script result cache (scripts can be run n times)")
 
   # -------------------------------------------------------------------------
   #
