@@ -62,7 +62,7 @@ class Key(Enum):
   OPT_SUITE_PATH = "--suite-path"
   RUN_SUITE = "run-suite"
   SCRIPT = "script"
-  SHORT_DESCRIPTION = "short-description"
+  DESCRIPTION = "description"
   SUITE_PATH = "suite_path"
   TEST = "test"
   TEST_LIBRARY_PATH = "test_library_path"

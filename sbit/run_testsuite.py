@@ -180,8 +180,8 @@ class RunTestSuite(CliCommand):
     print ("[+] " + Colors.FG_YELLOW.value + Colors.BOLD.value + categories[0][Key.CATEGORY.value] \
            + Colors.RESET.value)
     print ("------------------------------------")
-    if Key.SHORT_DESCRIPTION.value in categories[0]:
-      print (" " + categories[0][Key.SHORT_DESCRIPTION.value])
+    if Key.DESCRIPTION.value in categories[0]:
+      print (" " + categories[0][Key.DESCRIPTION.value])
     msg_buffer = []
     self.execute_category_test_and_recurse(categories[0], output_msg=msg_buffer)
     print ("")
@@ -217,7 +217,10 @@ class RunTestSuite(CliCommand):
       for test in category[Key.TEST.value]:
         # Generate the output message
         test_output = "".join("  " for i in range(current_level))
-        test_output += "   - Running : " + test[Key.SCRIPT.value]
+        if Key.DESCRIPTION.value in test:
+          test_output += "   - " + test[Key.DESCRIPTION.value]
+        else:
+          test_output += "   - Running : " + test[Key.SCRIPT.value]
         test_output += "".join(" " for i in range(64 - len(test_output)))
 
         # Generate the path to the real test
