@@ -217,23 +217,34 @@ class RunTestSuite(CliCommand):
 
     # Execute test defined at category level
     if not Key.TEST.value in category:
+      # No test is defined, only output a deug log and move to nxt category
       logging.debug("No test defined in category " + category[Key.CATEGORY.value])
     else:
+      # Let's iterate all the tests in the current category
       for test in category[Key.TEST.value]:
-        # Generate the output message
+        # Initialize local variables
+        ret = -1
+        test_output = ""
+
+        # Generate the output message describing the current test
         test_output = "".join("  " for i in range(current_level))
+
+        # Check if there is a test description in the YAML file
         if Key.DESCRIPTION.value in test:
+          # YEs, thus out the description
           test_output += "   - " + test[Key.DESCRIPTION.value]
         else:
+          # No description available, thus default to outputing the test script name
           test_output += "   - Running : " + test[Key.SCRIPT.value]
+
+        # Concatenate the current test informaton to the output
         test_output += "".join(" " for i in range(64 - len(test_output)))
 
-        # Generate the path to the real test
+        # Now, let's generate the path to the real test
         script_path = self.cfg.library_path + "/" + test[Key.SCRIPT.value]
         script_path = os.path.expanduser(script_path)
 
         # Check that the script exist and is executable
-        ret = -1
         if not os.path.isfile(script_path) or not os.access(script_path, os.X_OK):
           logging.error("Script " + script_path +" does not exist. Mark test as failed.")
           ret = -1
@@ -243,10 +254,30 @@ class RunTestSuite(CliCommand):
           if Key.ARGS.value in test:
             script_path += " " + test[Key.ARGS.value]
 
-          # Finaly execute the test script
-          ret, out, err = self.execute_command(script_path)
+          # If the cache is activated, then store the result in the hash table
+          if self.use_results_cache:
+            logging.debug("Using result cache")
+            # Is the value already in cache ? If not then create the sub hashtable
+            # Subtable is used to hash arguments for a given script
+            if not test[Key.SCRIPT.value] in self.results_cache.keys():
+              logging.debug("Create SUB hashtable for " + test[Key.SCRIPT.value])
+              self.results_cache[test[Key.SCRIPT.value]] = {}
 
-        # And generate a random result
+            # Check if we already have a result for these arguments, if no store the result
+            if test[Key.ARGS.value] in self.results_cache[test[Key.SCRIPT.value]].keys():
+              logging.debug("Cache hit for " + test[Key.SCRIPT.value] + " " + test[Key.ARGS.value])
+              logging.debug("Using previous result " + str(self.results_cache[test[Key.SCRIPT.value]][test[Key.ARGS.value]]))
+              ret = self.results_cache[test[Key.SCRIPT.value]][test[Key.ARGS.value]]
+            else:
+              logging.debug("Cache miss for " + test[Key.SCRIPT.value] + " " + test[Key.ARGS.value])
+              logging.debug("Executing test script")
+              ret, out, err = self.execute_command(script_path)
+
+          else:
+            # Not using cache, thus execute the test
+            ret, out, err = self.execute_command(script_path)
+
+        # And generate the colored result output. Green is a success, red a failure
         if ret == 0:
           success_local &= True
           test_output += "[" + Colors.FG_GREEN.value + Colors.BOLD.value + " OK "
@@ -260,21 +291,21 @@ class RunTestSuite(CliCommand):
         if self.cfg.aggregation_level is None or (current_level < int(self.cfg.aggregation_level)):
           local_msg.append(test_output)
 
-        # If the cche is activated, then store the result in the hash table
+        # If the cache is activated, then store the result in the hash table
         if self.use_results_cache:
           logging.debug("Using result cache")
           # Is the value already in cache ? If not then create the sub hashtable
           # Subtable is used to hash arguments for a given script
-          if not test[Key.SCRIPT.value] in self.results_cache:
+          if not test[Key.SCRIPT.value] in self.results_cache.keys():
             logging.debug("Create SUB hashtable for " + test[Key.SCRIPT.value])
             self.results_cache[test[Key.SCRIPT.value]] = {}
-
-          # Check if we already have a result for these arguments, if no store the result
-          if not test[Key.ARGS.value] in self.results_cache[test[Key.SCRIPT.value]]:
-            logging.debug("Cache miss for " + test[Key.SCRIPT.value] + " " + test[Key.ARGS.value])
-            self.results_cache[test[Key.SCRIPT.value]][test[Key.ARGS.value]] = script_ret
           else:
-            logging.debug("Cache miss for " + test[Key.SCRIPT.value] + " " + test[Key.ARGS.value])
+            # Check if we already have a result for these arguments, if no store the result
+            if not test[Key.ARGS.value] in self.results_cache[test[Key.SCRIPT.value]].keys():
+              logging.debug("Cache miss for " + test[Key.SCRIPT.value] + " " + test[Key.ARGS.value])
+              self.results_cache[test[Key.SCRIPT.value]][test[Key.ARGS.value]] = ret
+            else:
+              logging.debug("Cache hit for " + test[Key.SCRIPT.value] + " " + test[Key.ARGS.value])
 
     # Add string right padding to align at 64
     output += "".join(" " for i in range(64 - len(output)))
