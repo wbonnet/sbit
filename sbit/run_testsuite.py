@@ -60,7 +60,12 @@ class RunTestSuite(CliCommand):
     # Initialize ancestor
     CliCommand.__init__(self, cfg)
 
+    # Initialize the hash table used to cache test results
+    self.results_cache = {}
 
+    # Flag used to mark if we use or not the results cache
+    # TODO add a cli flag to deactivate it
+    self.use_results_cache = True
 
   # -------------------------------------------------------------------------
   #
@@ -254,6 +259,22 @@ class RunTestSuite(CliCommand):
         # Push the line to output to the message buffer only if below aggregation level
         if self.cfg.aggregation_level is None or (current_level < int(self.cfg.aggregation_level)):
           local_msg.append(test_output)
+
+        # If the cche is activated, then store the result in the hash table
+        if self.use_results_cache:
+          logging.debug("Using result cache")
+          # Is the value already in cache ? If not then create the sub hashtable
+          # Subtable is used to hash arguments for a given script
+          if not test[Key.SCRIPT.value] in self.results_cache:
+            logging.debug("Create SUB hashtable for " + test[Key.SCRIPT.value])
+            self.results_cache[test[Key.SCRIPT.value]] = {}
+
+          # Check if we already have a result for these arguments, if no store the result
+          if not test[Key.ARGS.value] in self.results_cache[test[Key.SCRIPT.value]]:
+            logging.debug("Cache miss for " + test[Key.SCRIPT.value] + " " + test[Key.ARGS.value])
+            self.results_cache[test[Key.SCRIPT.value]][test[Key.ARGS.value]] = script_ret
+          else:
+            logging.debug("Cache miss for " + test[Key.SCRIPT.value] + " " + test[Key.ARGS.value])
 
     # Add string right padding to align at 64
     output += "".join(" " for i in range(64 - len(output)))
