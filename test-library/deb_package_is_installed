@@ -24,8 +24,7 @@
 # @SBIT description short description
 #
 # @SBIT hint  -1   Wrong number of arguments. Should be 1. Please check args in your test file
-# @SBIT hint   1   Device is not mounted
-# @SBIT hint   2   Device does ot exist
+# @SBIT hint   1   Package is not installed. You can add it using apt install
 #
 # -----------------------------------------------------------------------------
 
@@ -34,7 +33,7 @@
 # Argument definition
 #
 #    count : 1
-#    arg 1 : Device to check
+#    arg 1 : Name of the package to check for installation
 #
 # -----------------------------------------------------------------------------
 
@@ -76,14 +75,11 @@ setup()
 #
 do_test()
 {
-  # Check for device existence
-  if [ ! -b "${DEVICE}" ] ;
-  then
-    return 2
-  fi
+  # Retrieve the number of core available
+  IS_INSTALLED=$(dpkg -l ${PKG_NAME} | grep -w ${PKG_NAME} | grep ^ii | wc -l)
 
-  # Check if the device is mounted
-  if [ ! "$(mount | grep -w ${DEVICE} | head -n 1 | awk '{ print $1 }')" == "${DEVICE}" ] ;
+  # Compare to first args
+  if [ ! "1" == "${IS_INSTALLED}" ] ;
   then
     return 1
   fi
@@ -105,7 +101,7 @@ teardown()
 
 # Store command line arguments
 ARG_COUNT=$#
-DEVICE="$1"
+PKG_NAME=$1
 
 # Call the setup method and check its return code is 0. Otherwise something went wrong
 setup
@@ -113,7 +109,7 @@ ret_setup=$?
 if [ ! ${ret_setup} == 0 ]; then exit ${ret_setup} ; fi
 
 # Call the test method and stores its return code in order to use it as final exit code
-do_test
+do_test ${PKG_NAME}
 ret_test=$?
 
 # Call the teardown method and check its return code is 0. Otherwise something went wrong

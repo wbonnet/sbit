@@ -24,7 +24,7 @@
 # @SBIT description short description
 #
 # @SBIT hint  -1   Wrong number of arguments. Should be 1. Please check args in your test file
-# @SBIT hint   1   Package is not installed. You can add it using apt install
+# @SBIT hint   1   Feature is not available
 #
 # -----------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@
 # Argument definition
 #
 #    count : 1
-#    arg 1 : Name of the package to check for installation
+#    arg 1 : Feature expected to be available from CPU (eg: neon)
 #
 # -----------------------------------------------------------------------------
 
@@ -76,10 +76,10 @@ setup()
 do_test()
 {
   # Retrieve the number of core available
-  IS_INSTALLED=$(dpkg -l ${PKG_NAME} | grep ${PKG_NAME} | grep ^ii | wc -l)
+  FEATURE=$(cat /proc/cpuinfo | grep ^flags | head -n 1 | grep -w ${EXPECTED_FEATURE} | wc -l)
 
   # Compare to first args
-  if [ ! "1" == "${IS_INSTALLED}" ] ;
+  if [ ! "1" == "${FEATURE}" ] ;
   then
     return 1
   fi
@@ -101,15 +101,16 @@ teardown()
 
 # Store command line arguments
 ARG_COUNT=$#
-PKG_NAME=$1
+EXPECTED_FEATURE=$1
 
 # Call the setup method and check its return code is 0. Otherwise something went wrong
 setup
 ret_setup=$?
+echo ${ret_setup}
 if [ ! ${ret_setup} == 0 ]; then exit ${ret_setup} ; fi
 
 # Call the test method and stores its return code in order to use it as final exit code
-do_test ${PKG_NAME}
+do_test ${EXPECTED_FEATURE}
 ret_test=$?
 
 # Call the teardown method and check its return code is 0. Otherwise something went wrong

@@ -26,7 +26,7 @@
 # @SBIT hint  -1   Wrong number of arguments. Should be 1. Please check args in your test file
 # @SBIT hint   1   Device is not mounted
 # @SBIT hint   2   Device is not mounted on the given mount point
-# @SBIT hint   3   Device does ot exist
+# @SBIT hint   3   Device does not exist
 # @SBIT hint   4   Mount point does not exist
 #
 # -----------------------------------------------------------------------------
@@ -35,7 +35,7 @@
 #
 # Argument definition
 #
-#    count : 1
+#    count : 2
 #    arg 1 : Device to check
 #    arg 2 : Expected mount point
 #
@@ -92,13 +92,13 @@ do_test()
   fi
 
   # Check if the device is mounted
-  if [ ! "$(mount | grep ${DEVICE} | head -n 1 | awk '{ print $1 }')" == "${DEVICE}" ] ;
+  if [ ! "$(mount | grep -w ${DEVICE} | head -n 1 | awk '{ print $1 }')" == "${DEVICE}" ] ;
   then
     return 1
   fi
 
   # Check if the mount target is the expected on
-  if [ ! "$(mount | grep ${DEVICE} | awk '{ print $3 }' | grep ${MOUNT_POINT} | head -n 1)" == "${MOUNT_POINT}" ] ;
+  if [ ! "$(mount | grep -w ${DEVICE} | awk '{ print $3 }' | grep -w ${MOUNT_POINT} | head -n 1)" == "${MOUNT_POINT}" ] ;
   then
     return 2
   fi
