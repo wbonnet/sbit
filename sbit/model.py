@@ -204,6 +204,7 @@ class TestSuite(object):
     """
 
     # Default configuration file to use if not provided to load method
+    self.filename = None
     if filename is not None:
       self.filename = filename
 
@@ -228,6 +229,12 @@ class TestSuite(object):
     if filename is not None:
       self.filename = filename
 
+    # Test if the filename to load is defined
+    if self.filename is None:
+      self.logging.critical("The YAML test-suite file is not defined. Aborting.")
+      exit(1)
+
+    # Expand home prefix to have an absolute path
     if self.filename[0] == "~" and self.filename[1] == "/":
       self.filename = os.path.expanduser(self.filename)
 
@@ -238,7 +245,7 @@ class TestSuite(object):
         with open(self.filename, 'r') as working_file:
           self.suite = yaml.load(working_file)
       else:
-        # No tehn output an error
+        # No then output an error
         self.logging.critical("The file " + self.filename + " does not exist. Aborting.")
         exit(1)
 
