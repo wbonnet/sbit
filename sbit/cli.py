@@ -28,7 +28,6 @@ The module will do actual processing and run the associated worker method
 import argparse
 import textwrap
 import logging
-import model
 from model import Key
 from model import Configuration
 import run_testsuite
@@ -55,18 +54,17 @@ class Cli(object):
     """
 
     # Current version
-    self.version = "0.2.0"
+    self.version = "0.2.1"
 
     # Create the internal parser from argparse
     self.parser = argparse.ArgumentParser(description=textwrap.dedent('''\
 SBIT - Simple Build In Test v''' + self.version + '''
 
-XXX
-
 Available commands are :
-XXX
-'''),
-                                              formatter_class=argparse.RawTextHelpFormatter)
+  . ''' + Key.CHECK_LIBRARY.value + '''       Check the test scrpit library consistency
+  . ''' + Key.CHECK_SUITE.value +  '''         Check the test scrpit library consistency
+  . ''' + Key.RUN_SUITE.value + '''           Execute the tests defined in the given suite file
+'''), formatter_class=argparse.RawTextHelpFormatter)
 
     # Stores the arguments from the parser
     self.args = None
@@ -158,10 +156,7 @@ XXX
       self.cfg.use_results_cache = not self.args.no_result_cache
 
     # Retrieve the failfast flag
-    if self.args.fail_fast != None:
-      self.cfg.fail_fast = True
-    else:
-      self.cfg.fail_fast = False
+    self.cfg.fail_fast = bool(self.args.fail_fast != None)
 
     # Create the logger object
     logging.basicConfig()
@@ -267,7 +262,7 @@ XXX
     # Defines the reverse order search path
     self.parser.add_argument(Key.OPT_CATEGORY.value,
                              action='store',
-                             nargs='*' ,
+                             nargs='*',
                              dest=Key.CATEGORY.value,
                              help="Defines the list of test category to execute")
 

@@ -26,7 +26,6 @@ used to load its content fom yaml configuration file.
 import os
 import logging
 from enum import Enum
-from datetime import datetime
 import yaml
 
 
@@ -128,7 +127,7 @@ class Configuration(object):
     # Flag used to mark if result cache is deactivate.
     # If cache is activated, a given script with a given set of arguments can be run only once.
     # If cache is deactivated, the same script with the same arguments can be run many times
-    # A given script with different arguments will always run several time (once per set of 
+    # A given script with different arguments will always run several time (once per set of
     # diffrent argument values)
     self.use_results_cache = True
 
@@ -188,12 +187,11 @@ class Configuration(object):
 # -----------------------------------------------------------------------------
 class TestSuite(object):
   """This class defines a test suite. It contains a hierachical structure
-  describing the   tests to execute, and the associated tests scripts. A test
-  suite is linked to a suite file, which is a YAML description of this object.
+  describing the tests to execute, the associated tests scripts and the
+  arguments to be passed. A test suite is linked to a suite file, which is a
+  YAML description of this object.
 
-  This class provides method needed to manipulate the test description, such as :
-  . XXX
-
+  This class provides method needed to load the test description.
   """
 
   # ---------------------------------------------------------------------------
@@ -248,5 +246,3 @@ class TestSuite(object):
     except OSError as exception:
       self.logging.critical("Error: " + exception.filename + "- " + exception.strerror)
       exit(1)
-
-

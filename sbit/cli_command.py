@@ -22,10 +22,7 @@
 cli targets.
 """
 
-import os
 import subprocess
-import shutil
-from model import Key
 
 #
 #    Class CliCommand

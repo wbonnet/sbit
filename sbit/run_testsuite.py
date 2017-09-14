@@ -25,11 +25,6 @@ and run a test suite, either from top level category or from any midlevel or sub
 
 import logging
 import os
-import stat
-import tempfile
-import datetime
-import random
-import time
 from cli_command import CliCommand
 from model import Key
 from model import TestSuite
@@ -63,8 +58,8 @@ class RunTestSuite(CliCommand):
     # Initialize the hash table used to cache test results
     self.results_cache = {}
 
-    # Flag used to mark if we use or not the results cache
-    # TODO add a cli flag to deactivate it
+    # Current test site. Object used to sore YAML structure loaded from file
+    self.suite = None
 
   # -------------------------------------------------------------------------
   #
@@ -166,7 +161,7 @@ class RunTestSuite(CliCommand):
             # Yes, thus exit this loop
             categories = {}
             categories[0] = cur
-            break;
+            break
           else:
             # Not yet, let's goo deeper
             continue
@@ -181,23 +176,23 @@ class RunTestSuite(CliCommand):
       counter += 1
 
     # Category has been found. Now let's recurse...
-    print ("[+] " + Colors.FG_YELLOW.value + Colors.BOLD.value + categories[0][Key.CATEGORY.value] \
+    print("[+] " + Colors.FG_YELLOW.value + Colors.BOLD.value + categories[0][Key.CATEGORY.value] \
            + Colors.RESET.value)
-    print ("------------------------------------")
+    print("------------------------------------")
     if Key.DESCRIPTION.value in categories[0]:
-      print (" " + categories[0][Key.DESCRIPTION.value])
+      print(" " + categories[0][Key.DESCRIPTION.value])
     msg_buffer = []
-    self.execute_category_test_and_recurse(categories[0], output_msg=msg_buffer)
-    print ("")
+    self.execute_test_recursively(categories[0], output_msg=msg_buffer)
+    print("")
 
 
 
   # -------------------------------------------------------------------------
   #
-  # execute_category_test_and_recurse
+  # execute_test_recursively
   #
   # -------------------------------------------------------------------------
-  def execute_category_test_and_recurse(self, category, current_level = 0, output_msg = None):
+  def execute_test_recursively(self, category, current_level=0, output_msg=None):
     """This method is in charge of doing real test execution, and recurse down
     to the test tree (going down in the subcategories).
     """
@@ -265,7 +260,8 @@ class RunTestSuite(CliCommand):
             # Check if we already have a result for these arguments, if no store the result
             if test[Key.ARGS.value] in self.results_cache[test[Key.SCRIPT.value]].keys():
               logging.debug("Cache hit for " + test[Key.SCRIPT.value] + " " + test[Key.ARGS.value])
-              logging.debug("Using previous result " + str(self.results_cache[test[Key.SCRIPT.value]][test[Key.ARGS.value]]))
+              logging.debug("Using previous result " +
+                            str(self.results_cache[test[Key.SCRIPT.value]][test[Key.ARGS.value]]))
               ret = self.results_cache[test[Key.SCRIPT.value]][test[Key.ARGS.value]]
             else:
               logging.debug("Cache miss for " + test[Key.SCRIPT.value] + " " + test[Key.ARGS.value])
@@ -314,13 +310,13 @@ class RunTestSuite(CliCommand):
       # For each sub category in the test suite
       for cur in category[Key.TEST_SUITE.value]:
         # Recurse suite tree
-        r,o = self.execute_category_test_and_recurse(cur, current_level + 1, output_msg)
+        res, out = self.execute_test_recursively(cur, current_level + 1, output_msg)
 
         # Then use the return values to compute the new subtest state
-        success_subtest &= r
+        success_subtest &= res
 
         # Concatenate the string buffers
-        local_msg += o
+        local_msg += out
 
     # Were local tests sucessful ? yes thus a green OK
     if success_local:

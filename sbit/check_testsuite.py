@@ -25,12 +25,7 @@ malformed yaml fragment, etc.
 """
 
 import logging
-import os
-import stat
-import tempfile
-import datetime
 from cli_command import CliCommand
-from model import Key
 
 #
 #    Class CheckTestSuite
@@ -65,7 +60,7 @@ class CheckTestSuite(CliCommand):
   def check_suite(self):
     """This method implement the business logic of checking a test suite.
     Checking a test suite is :
-      - XXX
+      - TODOs
     """
 
     # Check that there is a firmware configuration file first
