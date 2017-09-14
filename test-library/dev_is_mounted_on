@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+#
+# The contents of this file are subject to the Apache 2.0 license you may not
+# use this file except in compliance with the License.
+#
+# Software distributed under the License is distributed on an "AS IS" basis,
+# WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+# for the specific language governing rights and limitations under the
+# License.
+#
+#
+# Copyright 2017 DFT project (http://www.debianfirmwaretoolkit.org).
+# All rights reserved. Use is subject to license terms.
+#
+#
+# Contributors list :
+#
+#    William Bonnet     wllmbnnt@gmail.com, wbonnet@theitmakers.com
+#
+#
+
+# -----------------------------------------------------------------------------
+#
+# @SBIT description short description
+#
+# @SBIT hint  -1   Wrong number of arguments. Should be 1. Please check args in your test file
+# @SBIT hint   1   Device is not mounted
+# @SBIT hint   2   Device is not mounted on the given mount point
+# @SBIT hint   3   Device does ot exist
+# @SBIT hint   4   Mount point does not exist
+#
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+#
+# Argument definition
+#
+#    count : 1
+#    arg 1 : Device to check
+#    arg 2 : Expected mount point
+#
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Beginning of test script
+# -----------------------------------------------------------------------------
+
+# Activate "fail fast". Stop on first error encountered.
+set -e
+
+#
+# Method used to setup the test environment. You should do any initialisation,
+# temporary files or directories creation, serial configuration, or whatever you
+# need to do... here
+#
+setup()
+{
+    # Check the number of arguments. Should be 1
+    if [ ! "${ARG_COUNT}" == "2" ] ;
+    then
+      return -1
+    fi
+
+    # Went so far ? thus everything is ok...
+    return 0
+}
+
+#
+# Method executing the real test case. It is called after setup, and before
+# teardown. In case of succes it should return 0. Otherwise it returns an error
+# code that will be used as exit code for this script.
+#
+# You may define this error code as an hint in the meta section (beginning of
+# this script) as a @SBIT hint. Hints are using two arguments. First is an index,
+# which must have the same value as the exit code you return, and a string that
+# will be printed by the sbit engine as an "hint" to the tester.
+#
+# Expect hint to be displayed like this "Error 3 occured. You should check this"
+#
+do_test()
+{
+  # Check for device existence
+  if [ ! -b "${DEVICE}" ] ;
+  then
+    return 3
+  fi
+
+  # Check for mount point existence
+  if [ ! -d "${MOUNT_POINT}" ] ;
+  then
+    return 4
+  fi
+
+  # Check if the device is mounted
+  if [ ! "$(mount | grep ${DEVICE} | head -n 1 | awk '{ print $1 }')" == "${DEVICE}" ] ;
+  then
+    return 1
+  fi
+
+  # Check if the mount target is the expected on
+  if [ ! "$(mount | grep ${DEVICE} | awk '{ print $3 }' | grep ${MOUNT_POINT} | head -n 1)" == "${MOUNT_POINT}" ] ;
+  then
+    return 2
+  fi
+
+  # Main exit, no error detected, return 0
+  return 0
+}
+
+#
+# Method used to cleanup the test environment after the test has been executed.
+# Test environment should be restored to the same state it was in before setup
+# was executed
+#
+teardown()
+{
+    # Went so far ? thus everything is ok...
+    return 0
+}
+
+# Store command line arguments
+ARG_COUNT=$#
+DEVICE="$1"
+MOUNT_POINT="$2"
+
+# Call the setup method and check its return code is 0. Otherwise something went wrong
+setup
+ret_setup=$?
+if [ ! ${ret_setup} == 0 ]; then exit ${ret_setup} ; fi
+
+# Call the test method and stores its return code in order to use it as final exit code
+do_test
+ret_test=$?
+
+# Call the teardown method and check its return code is 0. Otherwise something went wrong
+teardown
+ret_teardown=$?
+if [ ! ${ret_teardown} == 0 ]; then exit ${ret_teardown} ; fi
+
+# Main exit, no error detected, return 0
+exit ${ret_test}

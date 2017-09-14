@@ -24,7 +24,8 @@
 # @SBIT description short description
 #
 # @SBIT hint  -1   Wrong number of arguments. Should be 1. Please check args in your test file
-# @SBIT hint   1   Directory does not exist
+# @SBIT hint   1   File does not exist
+#
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
@@ -32,7 +33,7 @@
 # Argument definition
 #
 #    count : 1
-#    arg 1 : Directory to check for existence
+#    arg 1 : File to check for existence
 #
 # -----------------------------------------------------------------------------
 
@@ -75,7 +76,7 @@ setup()
 do_test()
 {
   # Compare to first args
-  if [ ! -d "${DIRECTORY_TO_CHECK}" ] ;
+  if [ ! -f "${FILE_TO_CHECK}" ] ;
   then
     return 1
   fi
@@ -97,7 +98,7 @@ teardown()
 
 # Store command line arguments
 ARG_COUNT=$#
-DIRECTORY_TO_CHECK="$1"
+FILE_TO_CHECK="$1"
 
 # Call the setup method and check its return code is 0. Otherwise something went wrong
 setup
@@ -106,7 +107,7 @@ echo ${ret_setup}
 if [ ! ${ret_setup} == 0 ]; then exit ${ret_setup} ; fi
 
 # Call the test method and stores its return code in order to use it as final exit code
-do_test "${DIRECTORY_TO_CHECK}"
+do_test "${FILE_TO_CHECK}"
 ret_test=$?
 
 # Call the teardown method and check its return code is 0. Otherwise something went wrong
