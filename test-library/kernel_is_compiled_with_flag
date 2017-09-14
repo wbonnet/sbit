@@ -33,7 +33,7 @@
 # Argument definition
 #
 #    count : 1
-#    arg 1 : Feature expected to be available from CPU (eg: neon)
+#    arg 1 : Flag expected to be available from CPU (eg: CONFIG_FOO=y)
 #
 # -----------------------------------------------------------------------------
 
@@ -76,13 +76,7 @@ setup()
 do_test()
 {
   # Retrieve the number of core available
-  FEATURE=$(cat /proc/cpuinfo | grep ^flags | head -n 1 | grep ${EXPECTED_FEATURE} | wc -l)
-
-  # Compare to first args
-  if [ ! "1" == "${FEATURE}" ] ;
-  then
-    return 1
-  fi
+  return 1
 
   # Main exit, no error detected, return 0
   return 0
@@ -101,7 +95,7 @@ teardown()
 
 # Store command line arguments
 ARG_COUNT=$#
-EXPECTED_FEATURE=$1
+FLAG=$1
 
 # Call the setup method and check its return code is 0. Otherwise something went wrong
 setup
@@ -110,7 +104,7 @@ echo ${ret_setup}
 if [ ! ${ret_setup} == 0 ]; then exit ${ret_setup} ; fi
 
 # Call the test method and stores its return code in order to use it as final exit code
-do_test ${EXPECTED_FEATURE}
+do_test
 ret_test=$?
 
 # Call the teardown method and check its return code is 0. Otherwise something went wrong
