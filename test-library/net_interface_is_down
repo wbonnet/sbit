@@ -120,7 +120,7 @@ ret_setup=$?
 if [ ! ${ret_setup} == 0 ]; then exit ${ret_setup} ; fi
 
 # Call the test method and stores its return code in order to use it as final exit code
-do_test ${EXPECTED_INTERFACE}
+do_test
 ret_test=$?
 
 # Call the teardown method and check its return code is 0. Otherwise something went wrong
