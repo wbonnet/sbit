@@ -25,7 +25,7 @@
 #
 # @SBIT hint  -1   Wrong number of arguments. Should be 1. Please check args in your test file
 # @SBIT hint   1   Interface is not available
-# @SBIT hint   2   Carrier is not available
+# @SBIT hint   2   Address is not available
 #
 # -----------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@
 #
 #    count : 1
 #    arg 1 : Interface to check (eg: eth0)
-#    arg 2 : Address to check (without mask)
+#    arg 2 : IPv4 address to check
 #
 # -----------------------------------------------------------------------------
 
@@ -92,7 +92,7 @@ do_test()
   # Compare to first args
   if [ ! "${HAS_ADDR}" == "${ADDRESS}" ] ;
   then
-    return 1
+    return 2
   fi
 
   # Main exit, no error detected, return 0
