@@ -72,7 +72,7 @@ class Key(Enum):
   TEST_SUITE = "test-suite"
   TEST_SUITE_PATH = "test_suite_path"
   UTF8 = "utf-8"
-
+  OUTPUT_RESULT_PADDING = 75
 
 
 # -----------------------------------------------------------------------------

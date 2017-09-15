@@ -232,7 +232,7 @@ class RunTestSuite(CliCommand):
           test_output += "   - Running : " + test[Key.SCRIPT.value]
 
         # Concatenate the current test informaton to the output
-        test_output += "".join(" " for i in range(64 - len(test_output)))
+        test_output += "".join(" " for i in range(Key.OUTPUT_RESULT_PADDING.value - len(test_output)))
 
         # Now, let's generate the path to the real test
         script_path = self.cfg.library_path + "/" + test[Key.SCRIPT.value]
@@ -312,8 +312,8 @@ class RunTestSuite(CliCommand):
             else:
               logging.debug("Cache hit for " + test[Key.SCRIPT.value] + " " + test[Key.ARGS.value])
 
-    # Add string right padding to align at 64
-    output += "".join(" " for i in range(64 - len(output)))
+    # Add string right padding to align at Key.OUTPUT_RESULT_PADDING.value
+    output += "".join(" " for i in range(Key.OUTPUT_RESULT_PADDING.value - len(output)))
 
     # Iterate the sub cateries and recursivly execute tests
     if Key.TEST_SUITE.value in category:
