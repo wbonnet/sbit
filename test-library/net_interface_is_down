@@ -24,7 +24,8 @@
 # @SBIT description short description
 #
 # @SBIT hint  -1   Wrong number of arguments. Should be 1. Please check args in your test file
-# @SBIT hint   1   Interface is not down
+# @SBIT hint   1   Interface is not available
+# @SBIT hint   2   Carrier is not down
 #
 # -----------------------------------------------------------------------------
 
@@ -33,7 +34,7 @@
 # Argument definition
 #
 #    count : 1
-#    arg 1 : Interface to check for existence (eg: eth0)
+#    arg 1 : Interface to check (eg: eth0)
 #
 # -----------------------------------------------------------------------------
 
@@ -50,6 +51,7 @@ set -e
 # need to do... here
 #
 setup()
+
 {
     # Check the number of arguments. Should be 1
     if [ ! "${ARG_COUNT}" == "1" ] ;
@@ -75,11 +77,20 @@ setup()
 #
 do_test()
 {
-  # Retrieve the number of core available
-  INTERFACE=$(ip link show | grep ": ${INTERFACE}:" | wc -l)
+  # Check if the interface exist
+  NOT_EXIST=$(ip link show ${INTERFACE} | grep "does not exist" | wc -l)
 
   # Compare to first args
-  if [ ! "1" == "${INTERFACE}" ] ;
+  if [ "1" == "${NOT_EXIST}" ] ;
+  then
+    return 1
+  fi
+
+  # Retrieve the number of core available
+  IS_UP=$(cat /sys/class/net/${INTERFACE}/operstate)
+
+  # Compare to first args
+  if [ ! "${IS_UP}" == "down" ] ;
   then
     return 1
   fi
@@ -106,11 +117,10 @@ INTERFACE=$1
 # Call the setup method and check its return code is 0. Otherwise something went wrong
 setup
 ret_setup=$?
-echo ${ret_setup}
 if [ ! ${ret_setup} == 0 ]; then exit ${ret_setup} ; fi
 
 # Call the test method and stores its return code in order to use it as final exit code
-do_test ${INTERFACE}
+do_test ${EXPECTED_INTERFACE}
 ret_test=$?
 
 # Call the teardown method and check its return code is 0. Otherwise something went wrong
