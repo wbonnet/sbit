@@ -60,15 +60,18 @@ class Key(Enum):
   OPT_LIBRARY_PATH = "--library-path"
   OPT_LOG_LEVEL = "--log-level"
   OPT_SUITE_PATH = "--suite-path"
+  OPT_SHOW_HINTS = "--show-hints"
   OPT_NO_RESULT_CACHE = "--no-result-cache"
   RUN_SUITE = "run-suite"
   SCRIPT = "script"
   DESCRIPTION = "description"
   SUITE_PATH = "suite_path"
+  SHOW_HINTS = "show_hints"
   TEST = "test"
   TEST_LIBRARY_PATH = "test_library_path"
   TEST_SUITE = "test-suite"
   TEST_SUITE_PATH = "test_suite_path"
+  UTF8 = "utf-8"
 
 
 
@@ -111,8 +114,11 @@ class Configuration(object):
     # Contains the configuration loaded from the YAML file
     self.configuration = None
 
-    # Defies the path to the test suite file
+    # Defines the path to the test suite file
     self.suite_path = None
+
+    # Floag used to know if we have to display the hints or not
+    self.show_hints = None
 
     # Defines the path to the directory containing the test scripts
     self.library_path = None

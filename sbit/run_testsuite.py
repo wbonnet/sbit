@@ -282,6 +282,16 @@ class RunTestSuite(CliCommand):
           test_output += "[" + Colors.FG_RED.value + Colors.BOLD.value + " KO "
           test_output += Colors.RESET.value + "]"
 
+          # Output the returns to the debug log
+          logging.debug("Return code : " + str(ret))
+          logging.debug("Stdout      : " + out)
+          logging.debug("Stderr      : " + err)
+
+          # Test failed,check if hinting is activated, if yes, concatenated to output buffer
+          # if self.cfg.show_hints:
+          #   test_output += "\n"
+          #   test_output += "show hints"
+
         # Push the line to output to the message buffer only if below aggregation level
         if self.cfg.aggregation_level is None or (current_level < int(self.cfg.aggregation_level)):
           local_msg.append(test_output)

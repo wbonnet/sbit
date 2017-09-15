@@ -23,6 +23,7 @@ cli targets.
 """
 
 import subprocess
+from model import Key
 
 #
 #    Class CliCommand
@@ -77,12 +78,6 @@ class CliCommand(object):
     # It has to be done since we execute tests that can fail. Thus global execution hould not stop
     # on first error
     except subprocess.CalledProcessError as exception:
-#      self.cfg.logging.debug("Error %d occured when executing %s",
-#                                    exception.returncode, exception.cmd)
-#      self.cfg.logging.debug("stdout was :")
-#      self.cfg.logging.debug(exception.stdout)
-#      self.cfg.logging.debug("stderr was :")
-#      self.cfg.logging.debug(exception.stderr)
-
       # Return the output of the process to the caller
-      return exception.returncode, exception.stdout, exception.stderr
+      return exception.returncode, exception.stdout.decode(Key.UTF8.value), \
+             exception.stderr.decode(Key.UTF8.value)

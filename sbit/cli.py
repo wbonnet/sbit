@@ -158,6 +158,9 @@ Available commands are :
     # Retrieve the failfast flag
     self.cfg.fail_fast = bool(self.args.fail_fast != None)
 
+    # Retrieve the show hints flag
+    self.cfg.show_hints = bool(self.args.show_hints != None)
+
     # Create the logger object
     logging.basicConfig()
     self.cfg.logging = logging.getLogger()
@@ -198,19 +201,24 @@ Available commands are :
                              dest=Key.LIBRARY_PATH.value,
                              help="path to the directory storing the test scripts")
 
-    # Defines the reverse order search path
     self.parser.add_argument(Key.OPT_SUITE_PATH.value,
                              action='store',
                              dest=Key.SUITE_PATH.value,
                              help="path to the file containing the test suite (YAML format)")
 
-    # Defines the reverse order search path
     self.parser.add_argument(Key.OPT_FAIL_FAST.value,
                              action='store_true',
                              dest=Key.FAIL_FAST.value,
                              help="if this flag is activated, sbit will stop at the first error"
                                   "encountered, otherwise it will continue to run as long as"
                                   " possible and will report all errors")
+
+    self.parser.add_argument(Key.OPT_SHOW_HINTS.value,
+                             action='store_true',
+                             dest=Key.SHOW_HINTS.value,
+                             help="if this flag is activated, sbit will display hints when the "
+                                  "tests fails. Hints have to be defined in the tests scripts and"
+                                  " are optionals")
 
 
   # -------------------------------------------------------------------------
