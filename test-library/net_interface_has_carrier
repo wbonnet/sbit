@@ -85,7 +85,7 @@ do_test()
     return 1
   fi
 
-  # Retrieve the number of core available
+  # Retrieve the carrier status
   HAS_CARRIER=$(ip link show ${INTERFACE} | awk '{ print $3 }' | head -n 1 | tr \< \  | tr \> \  | tr , \  | grep -w "NO-CARRIER" > /dev/null && echo "NO-CARRIER" || echo "CARRIER")
 
   # Compare to first args

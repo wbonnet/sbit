@@ -75,7 +75,7 @@ setup()
 #
 do_test()
 {
-  # Retrieve the number of core available
+  # Retrieve the flag status
   FEATURE=$(cat /proc/cpuinfo | grep ^flags | head -n 1 | grep -w ${EXPECTED_FEATURE} | wc -l)
 
   # Compare to first args

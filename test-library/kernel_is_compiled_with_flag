@@ -75,7 +75,7 @@ setup()
 #
 do_test()
 {
-  # Retrieve the number of core available
+  # Retrieve the compil flag status
   return 1
 
   # Main exit, no error detected, return 0

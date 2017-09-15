@@ -51,7 +51,6 @@ set -e
 # need to do... here
 #
 setup()
-
 {
     # Check the number of arguments. Should be 1
     if [ ! "${ARG_COUNT}" == "1" ] ;
@@ -86,7 +85,7 @@ do_test()
     return 1
   fi
 
-  # Retrieve the number of core available
+  # Retrieve the interface status
   IS_UP=$(cat /sys/class/net/${INTERFACE}/operstate)
 
   # Compare to first args

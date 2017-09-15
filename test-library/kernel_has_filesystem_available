@@ -33,7 +33,7 @@
 # Argument definition
 #
 #    count : 1
-#    arg 1 : Filesystem expected to be available from CPU (eg: neon)
+#    arg 1 : Filesystem expected to be available (eg: squashfs)
 #
 # -----------------------------------------------------------------------------
 
@@ -75,7 +75,7 @@ setup()
 #
 do_test()
 {
-  # Retrieve the number of core available
+  # Check if the filesystem exist in /proc
   FEATURE=$(cat /proc/filesystems | grep -w ${EXPECTED_FS} | head -n 1 | wc -l)
 
   # Compare to first args

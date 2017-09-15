@@ -75,7 +75,7 @@ setup()
 #
 do_test()
 {
-  # Retrieve the number of core available
+  # Retrieve the package status
   IS_INSTALLED=$(dpkg -l ${PKG_NAME} | grep -w ${PKG_NAME} | grep ^ii | wc -l)
 
   # Compare to first args

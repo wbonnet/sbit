@@ -25,6 +25,7 @@
 #
 # @SBIT hint  -1   Wrong number of arguments. Should be 1. Please check args in your test file
 # @SBIT hint   1   Directory does not exist
+#
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------

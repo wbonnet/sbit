@@ -85,7 +85,7 @@ do_test()
   fi
 
   # Check if the device is mounted
-  IS_MOUNTED=$(mount | grep -w ${MOUNT_POINT} | awk '{ print $6 }' | head -n 1 | tr \( \  | tr \) \  | tr , \  | grep -w "${MOUNT_OPTION}" > /dev/null && echo ${MOUNT_OPTION})
+  IS_MOUNTED=$(mount | grep -w ${MOUNT_POINT} | awk '{ print $6 }' | head -n 1 | sed "s/-/${RANDOM_PATTERN}/g" | tr \( \  | tr \) \  | tr , \  | grep -w "${MOUNT_OPTION}" > /dev/null && echo ${MOUNT_OPTION} || echo "")
   if [ "${IS_MOUNTED}" == "${MOUNT_OPTION}" ] ;
   then
     return 1
@@ -109,7 +109,11 @@ teardown()
 # Store command line arguments
 ARG_COUNT=$#
 MOUNT_POINT="$1"
-MOUNT_OPTION="$2"
+
+# - is a word separator, not a character. Thus we have to replace it with something
+# Better is a random string.
+RANDOM_PATTERN=$(mktemp -u  | tr \. \  | awk '{ print $2 }')
+MOUNT_OPTION=$(echo "$2" | sed "s/-/${RANDOM_PATTERN}/g")
 
 # Call the setup method and check its return code is 0. Otherwise something went wrong
 setup

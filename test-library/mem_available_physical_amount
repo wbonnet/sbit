@@ -75,7 +75,7 @@ setup()
 #
 do_test()
 {
-  # Retrieve the number of core available
+  # Retrieve the amount of memory
   MEM_TOTAL=$(cat /proc/meminfo | grep ^MemTotal | awk '{ print $2 }')
 
   # Compare to first args

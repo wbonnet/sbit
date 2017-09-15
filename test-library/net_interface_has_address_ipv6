@@ -25,7 +25,7 @@
 #
 # @SBIT hint  -1   Wrong number of arguments. Should be 1. Please check args in your test file
 # @SBIT hint   1   Interface is not available
-# @SBIT hint   2   Carrier is not available
+# @SBIT hint   2   Address is not available
 #
 # -----------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@
 #
 #    count : 1
 #    arg 1 : Interface to check (eg: eth0)
-#    arg 2 : Interface to check (eg: eth0)
+#    arg 2 : Address to check (without mask)
 #
 # -----------------------------------------------------------------------------
 
@@ -52,7 +52,6 @@ set -e
 # need to do... here
 #
 setup()
-
 {
     # Check the number of arguments. Should be 1
     if [ ! "${ARG_COUNT}" == "2" ] ;
@@ -87,7 +86,7 @@ do_test()
     return 1
   fi
 
-  # Retrieve the number of core available
+  # Retrieve the ip address
   HAS_ADDR=$(ip addr show ${INTERFACE} | grep -w "inet6" | tr / \  | awk '{ print $2 }' | grep -w "${ADDRESS}" || echo "")
 
   # Compare to first args
