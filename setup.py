@@ -31,10 +31,10 @@ config = {
     'url': 'https://github.com/wbonnet/sbit/',
     'download_url': 'https://github.com/wbonnet/sbit/',
     'author_email': 'wbonnet@theitmakers.com',
-    'version': '0.2.1',
-    'install_requires': [],
+    'version': '0.2.2',
+    'install_requires': [ 'pyyaml' ],
     'packages': ['sbit'],
-    'scripts': [],
+    'scripts': [ 'bin/sbit' ],
     'name': 'sbit'
 }
 

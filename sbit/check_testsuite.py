@@ -25,7 +25,7 @@ malformed yaml fragment, etc.
 """
 
 import logging
-from cli_command import CliCommand
+from sbit.cli_command import CliCommand
 
 #
 #    Class CheckTestSuite

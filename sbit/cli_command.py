@@ -23,7 +23,7 @@ cli targets.
 """
 
 import subprocess
-from model import Key
+from sbit.model import Key
 
 #
 #    Class CliCommand

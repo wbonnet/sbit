@@ -28,11 +28,11 @@ The module will do actual processing and run the associated worker method
 import argparse
 import textwrap
 import logging
-from model import Key
-from model import Configuration
-import run_testsuite
-import check_testsuite
-import check_library
+from sbit.model import Key
+from sbit.model import Configuration
+import sbit.run_testsuite
+import sbit.check_testsuite
+import sbit.check_library
 
 # -----------------------------------------------------------------------------
 #
@@ -54,7 +54,7 @@ class Cli(object):
     """
 
     # Current version
-    self.version = "0.2.1"
+    self.version = "0.2.2"
 
     # Create the internal parser from argparse
     self.parser = argparse.ArgumentParser(description=textwrap.dedent('''\

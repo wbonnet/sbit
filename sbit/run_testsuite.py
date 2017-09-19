@@ -25,10 +25,10 @@ and run a test suite, either from top level category or from any midlevel or sub
 
 import logging
 import os
-from cli_command import CliCommand
-from model import Key
-from model import TestSuite
-from ansi_colors import Colors
+from sbit.cli_command import CliCommand
+from sbit.model import Key
+from sbit.model import TestSuite
+from sbit.ansi_colors import Colors
 
 # -----------------------------------------------------------------------------
 #
