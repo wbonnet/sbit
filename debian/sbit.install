@@ -1,1 +1,3 @@
 config/sbitrc /etc/sbit/
+test-library/* /usr/share/sbit/test-library/
+examples/* /usr/share/sbit/examples/
