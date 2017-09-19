@@ -81,18 +81,23 @@ class RunTestSuite(CliCommand):
 
     # Instanciate a TestSuite object and load its content from the YAML file
     self.suite = TestSuite()
-    self.suite.load(self.cfg.suite_path)
+    self.suite.load(self.cfg.suite)
 
-    # Check that the path to script library is defined (can come from config file or command line)
-    if self.cfg.library_path:
-      logging.debug("Using library path : " + self.cfg.library_path)
+    # Check that the the to script library is defined (can come from config file or command line)
+    if self.cfg.library:
+      logging.debug("Using library path : " + self.cfg.library)
     else:
-      logging.critical("The library path is not defined")
-      exit(1)
+      # Not defined on cli, thus check if defined in config file
+      if not Key.TEST_LIBRARY_PATH.value in self.cfg.configuration:
+        logging.critical("The library path is not defined")
+        exit(1)
+      else:
+        # Yes, then copy it into self.library
+        self.cfg.library = self.cfg.configuration[Key.TEST_LIBRARY_PATH.value]
 
     # Check that the path to test suite file is defined (can come from config file or command line)
-    if self.cfg.suite_path:
-      logging.debug("Using test suite : " + self.cfg.suite_path)
+    if self.cfg.suite:
+      logging.debug("Using test suite : " + self.cfg.suite)
     else:
       logging.critical("The suite path is not defined")
       exit(1)
@@ -232,10 +237,11 @@ class RunTestSuite(CliCommand):
           test_output += "   - Running : " + test[Key.SCRIPT.value]
 
         # Concatenate the current test informaton to the output
-        test_output += "".join(" " for i in range(Key.OUTPUT_RESULT_PADDING.value - len(test_output)))
+        test_output += "".join(" " for i in range(Key.OUTPUT_RESULT_PADDING.value - \
+                               len(test_output)))
 
         # Now, let's generate the path to the real test
-        script_path = self.cfg.library_path + "/" + test[Key.SCRIPT.value]
+        script_path = self.cfg.library + "/" + test[Key.SCRIPT.value]
         script_path = os.path.expanduser(script_path)
 
         # Check that the script exist and is executable

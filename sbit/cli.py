@@ -30,9 +30,12 @@ import textwrap
 import logging
 from sbit.model import Key
 from sbit.model import Configuration
-import sbit.run_testsuite
-import sbit.check_testsuite
-import sbit.check_library
+from sbit import run_testsuite
+from sbit import check_testsuite
+from sbit import check_library
+# import sbit.run_testsuite
+# import sbit.check_testsuite
+# import sbit.check_library
 
 # -----------------------------------------------------------------------------
 #
@@ -59,6 +62,7 @@ class Cli(object):
     # Create the internal parser from argparse
     self.parser = argparse.ArgumentParser(description=textwrap.dedent('''\
 SBIT - Simple Build In Test v''' + self.version + '''
+----------------------------------
 
 Available commands are :
   . ''' + Key.CHECK_LIBRARY.value + '''       Check the test scrpit library consistency
@@ -100,6 +104,8 @@ Available commands are :
       self.__add_parser_check_library()
     elif self.command == "run-suite":
       self.__add_parser_run_suite()
+    elif self.command == "help":
+      return self.parser.parse_args(['-h'])
     else:
       # If the command word is unknown, the force the parsing of the help flag
       logging.critical("Unknown command : %s", self.command)
@@ -136,12 +142,12 @@ Available commands are :
       self.cfg.log_level = Key.LOG_LEVEL_INFO.value
 
     # Retrieve the suite path from command line
-    if self.args.suite_path != None:
-      self.cfg.suite_path = self.args.suite_path
+    if self.args.suite != None:
+      self.cfg.suite = self.args.suite
 
     # Retrieve the library path from command line
-    if self.args.library_path != None:
-      self.cfg.library_path = self.args.library_path
+    if self.args.library != None:
+      self.cfg.library = self.args.library
 
     # Retrieve the array of categories
     if self.args.category != None:
@@ -194,31 +200,31 @@ Available commands are :
                              action='store',
                              dest=Key.LOG_LEVEL.value,
                              choices=['debug', 'info', 'warning', 'error', 'critical'],
-                             help="defines the minimal log level. Default value is  warning")
+                             help="Defines the minimal log level. Default value is  warning")
 
-    self.parser.add_argument(Key.OPT_LIBRARY_PATH.value,
+    self.parser.add_argument(Key.OPT_LIBRARY.value,
                              action='store',
-                             dest=Key.LIBRARY_PATH.value,
-                             help="path to the directory storing the test scripts")
+                             dest=Key.LIBRARY.value,
+                             help="Path to the directory storing the test scripts")
 
-    self.parser.add_argument(Key.OPT_SUITE_PATH.value,
+    self.parser.add_argument(Key.OPT_SUITE.value,
                              action='store',
-                             dest=Key.SUITE_PATH.value,
-                             help="path to the file containing the test suite (YAML format)")
+                             dest=Key.SUITE.value,
+                             help="File containing the test suite (YAML format)")
 
     self.parser.add_argument(Key.OPT_FAIL_FAST.value,
                              action='store_true',
                              dest=Key.FAIL_FAST.value,
-                             help="if this flag is activated, sbit will stop at the first error"
-                                  "encountered, otherwise it will continue to run as long as"
-                                  " possible and will report all errors")
+                             help="If this flag is activated, sbit will stop at the first error\n"
+                                  "encountered, otherwise it will continue to run as long as\n"
+                                  "possible and will report all errors")
 
     self.parser.add_argument(Key.OPT_SHOW_HINTS.value,
                              action='store_true',
                              dest=Key.SHOW_HINTS.value,
-                             help="if this flag is activated, sbit will display hints when the "
-                                  "tests fails. Hints have to be defined in the tests scripts and"
-                                  " are optionals")
+                             help="If this flag is activated, sbit will display hints when the\n"
+                                  "tests fails. Hints have to be defined in the tests scripts\n"
+                                  "and are optionals")
 
 
   # -------------------------------------------------------------------------
@@ -278,13 +284,13 @@ Available commands are :
     self.parser.add_argument(Key.OPT_AGGREGATION_LEVEL.value,
                              action='store',
                              dest=Key.AGGREGATION_LEVEL.value,
-                             help="defines the test depth used for results aggreation")
+                             help="Defines the test depth used for results aggreation")
 
     # Defines the reverse order search path
     self.parser.add_argument(Key.OPT_NO_RESULT_CACHE.value,
                              action='store_true',
                              dest=Key.NO_RESULT_CACHE.value,
-                             help="deactivate script result cache (scripts can be run n times)")
+                             help="Deactivate script result cache (scripts can be run n times)")
 
   # -------------------------------------------------------------------------
   #

@@ -49,7 +49,7 @@ class Key(Enum):
   CHECK_LIBRARY = "check-library"
   CHECK_SUITE = "check-suite"
   FAIL_FAST = "fail_fast"
-  LIBRARY_PATH = "library_path"
+  LIBRARY = "library"
   LOG_LEVEL = "log_level"
   LOG_LEVEL_INFO = "INFO"
   NO_RESULT_CACHE = "no_result_cache"
@@ -57,15 +57,15 @@ class Key(Enum):
   OPT_CATEGORY = "--category"
   OPT_FAIL_FAST = "--fail-fast"
   OPT_HELP_COMMAND = "Command to execute"
-  OPT_LIBRARY_PATH = "--library-path"
+  OPT_LIBRARY = "--library"
   OPT_LOG_LEVEL = "--log-level"
-  OPT_SUITE_PATH = "--suite-path"
+  OPT_SUITE = "--suite"
   OPT_SHOW_HINTS = "--show-hints"
   OPT_NO_RESULT_CACHE = "--no-result-cache"
   RUN_SUITE = "run-suite"
   SCRIPT = "script"
   DESCRIPTION = "description"
-  SUITE_PATH = "suite_path"
+  SUITE = "suite"
   SHOW_HINTS = "show_hints"
   TEST = "test"
   TEST_LIBRARY_PATH = "test_library_path"
@@ -115,13 +115,13 @@ class Configuration(object):
     self.configuration = None
 
     # Defines the path to the test suite file
-    self.suite_path = None
+    self.suite = None
 
     # Floag used to know if we have to display the hints or not
     self.show_hints = None
 
     # Defines the path to the directory containing the test scripts
-    self.library_path = None
+    self.library = None
 
     # Defines the member variables storing the test categories to execute
     self.category = None
@@ -150,8 +150,12 @@ class Configuration(object):
     if filename is not None:
       self.filename = filename
 
-    if self.filename[0] == "~" and self.filename[1] == "/":
-      self.filename = os.path.expanduser(self.filename)
+    # Expend ~ as uer home dir
+    self.filename = os.path.expanduser(self.filename)
+
+    # Check if configuration file exist in home ir, otherwise switch to package config file
+    if not os.path.isfile(self.filename):
+      self.filename = "/etc/sbit/sbitrc"
 
     try:
       # Check it the configuration file exist
@@ -167,17 +171,13 @@ class Configuration(object):
             # First let's process test_library_path
             if Key.TEST_LIBRARY_PATH.value in self.configuration:
               # Check if path starts with ~ and need expension
-              if self.configuration[Key.TEST_LIBRARY_PATH.value][0] == "~" \
-              and self.configuration[Key.TEST_LIBRARY_PATH.value][1] == "/":
-                self.configuration[Key.TEST_LIBRARY_PATH.value] = \
+              self.configuration[Key.TEST_LIBRARY_PATH.value] = \
                           os.path.expanduser(self.configuration[Key.TEST_LIBRARY_PATH.value])
 
             # First let's process test_suite_path
             if Key.TEST_SUITE_PATH.value in self.configuration:
               # Check if path starts with ~ and need expension
-              if self.configuration[Key.TEST_SUITE_PATH.value][0] == "~" \
-              and self.configuration[Key.TEST_SUITE_PATH.value][1] == "/":
-                self.configuration[Key.TEST_SUITE_PATH.value] = \
+              self.configuration[Key.TEST_SUITE_PATH.value] = \
                           os.path.expanduser(self.configuration[Key.TEST_SUITE_PATH.value])
 
     # Catch all OSError exceptions that may have occured. Mostly file errors...

@@ -44,7 +44,7 @@ def main():
   if len(sys.argv) >= 2:
     parser.parse(sys.argv[1])
   else:
-    args = ["__help__", "-h"]
+    args = "help"
     parser.parse(args)
 
   # Start counting the execution time
