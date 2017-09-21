@@ -267,7 +267,7 @@ class RunTestSuite(CliCommand):
           logging.debug("Checking if script " + script_path + " exist and is executable...")
           if os.path.isfile(script_path) and os.access(script_path, os.X_OK):
             # Yes found it, thus exit the search loop
-            logging.error("Found " + script_path)
+            logging.debug("Found " + script_path)
             script_found = True
             break;
 
