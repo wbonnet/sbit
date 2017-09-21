@@ -205,7 +205,7 @@ Available commands are :
     self.parser.add_argument(Key.OPT_LIBRARY.value,
                              action='store',
                              nargs='*',
-                             dest=Key.LIBRARY_PATH.value,
+                             dest=Key.LIBRARY.value,
                              help="Path to the directory storing the test scripts")
 
     self.parser.add_argument(Key.OPT_SUITE.value,
@@ -304,7 +304,7 @@ Available commands are :
     """
 
     # Create the business object
-    command = sbit.check_library.CheckLibrary(self.cfg)
+    command = check_library.CheckLibrary(self.cfg)
 
     # Then call the dedicated method
     command.check_library()
@@ -322,7 +322,7 @@ Available commands are :
     """
 
     # Create the business object
-    command = sbit.check_testsuite.CheckTestSuite(self.cfg)
+    command = check_testsuite.CheckTestSuite(self.cfg)
 
     # Then call the dedicated method
     command.check_suite()
@@ -340,7 +340,7 @@ Available commands are :
     """
 
     # Create the business object
-    command = sbit.run_testsuite.RunTestSuite(self.cfg)
+    command = run_testsuite.RunTestSuite(self.cfg)
 
     # Then call the dedicated method
     command.run_suite()

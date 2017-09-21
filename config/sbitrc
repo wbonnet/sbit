@@ -18,10 +18,11 @@
 #
 #
 
-# Defines the path to the test library to be used. By modifying this value,
+# Defines the list of path to the test library to be used. By modifying this value,
 # the default path will be overriden (default is /usr/share/sbit/test-library)
 # and replaced by the value set in the test_library_path variable.
-test_library_path: "/usr/share/sbit/test-library"
+test_library_path: 
+  - "/usr/share/sbit/test-library"
 
 # The variable aggregation_level defines the default value of the aggregation
 # level. By default this variable is unset, thus all the test results will be

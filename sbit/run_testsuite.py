@@ -83,16 +83,19 @@ class RunTestSuite(CliCommand):
     self.suite = TestSuite()
     self.suite.load(self.cfg.suite)
 
-<<<<<<< HEAD
-    # Check that the the to script library is defined (can come from config file or command line)
-    if self.cfg.library:
-      logging.debug("Using library path : " + self.cfg.library)
-=======
     # Check that the path to script library is defined (can come from config file or command line)
-    if self.cfg.library_path:
-      for item in self.cfg.library_path:
+    if self.cfg.library:
+      print(self.cfg.configuration)
+      # Check if global configuration exist, then append it to the current lib
+      if self.cfg.configuration is not None and \
+         Key.TEST_LIBRARY_PATH.value in self.cfg.configuration:
+        # Iterate the list of path from the system confguration file
+        for path in self.cfg.configuration[Key.TEST_LIBRARY_PATH.value]:
+          # And append the current path to the list used by this application instance
+          self.cfg.library.append(os.path.expanduser(path))
+
+      for item in self.cfg.library:
         logging.debug("Using library path : " + item)
->>>>>>> ibrary path is now a list
     else:
       # Not defined on cli, thus check if defined in config file
       if not Key.TEST_LIBRARY_PATH.value in self.cfg.configuration:
@@ -145,7 +148,7 @@ class RunTestSuite(CliCommand):
     # And now let's walk in the tree
     categories = self.suite.suite
 
-    # counter used to know how many toeksn have been processed so far
+    # Counter used to know how many toeksn have been processed so far
     counter = 0
 
     # Iterate the full tokens array
@@ -221,6 +224,10 @@ class RunTestSuite(CliCommand):
     success_local = True
     success_subtest = True
 
+    # Defines variables used to store stderr and stdout content
+    err = None
+    out = None
+
     # Execute test defined at category level
     if not Key.TEST.value in category:
       # No test is defined, only output a deug log and move to nxt category
@@ -247,12 +254,25 @@ class RunTestSuite(CliCommand):
         test_output += "".join(" " for i in range(Key.OUTPUT_RESULT_PADDING.value - \
                                len(test_output)))
 
-        # Now, let's generate the path to the real test
-        script_path = self.cfg.library + "/" + test[Key.SCRIPT.value]
-        script_path = os.path.expanduser(script_path)
+        # Now, let's generate the path to the real test. Let'siterate all the path from
+        # the library. User defined path have been inserted to head of the array.
+        script_found = False
 
-        # Check that the script exist and is executable
-        if not os.path.isfile(script_path) or not os.access(script_path, os.X_OK):
+        for item in self.cfg.library:
+          # Generate current path
+          script_path = item + "/" + test[Key.SCRIPT.value]
+          script_path = os.path.expanduser(script_path)
+
+          # Does the file exist ?
+          logging.debug("Checking if script " + script_path + " exist and is executable...")
+          if os.path.isfile(script_path) and os.access(script_path, os.X_OK):
+            # Yes found it, thus exit the search loop
+            logging.error("Found " + script_path)
+            script_found = True
+            break;
+
+        # Check that the script has been found. Loop can end without positive hit.
+        if not script_found:
           logging.error("Script " + script_path +" does not exist. Mark test as failed.")
           ret = -1
         # Script exist, we can try to execute it
@@ -297,8 +317,10 @@ class RunTestSuite(CliCommand):
 
           # Output the returns to the debug log
           logging.debug("Return code : " + str(ret))
-          logging.debug("Stdout      : " + out)
-          logging.debug("Stderr      : " + err)
+          if out is not None:
+            logging.debug("Stdout      : " + out)
+          if err is not None:
+            logging.debug("Stderr      : " + err)
 
           # Test failed,check if hinting is activated, if yes, concatenated to output buffer
           # if self.cfg.show_hints:

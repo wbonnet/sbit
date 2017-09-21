@@ -167,13 +167,6 @@ class Configuration(object):
           # Now we may have to expand a few paths...
           # First check if the configurationis really defined
           if self.configuration is not None:
-            # Yes then we now have to check one by one th different path to expand
-            # First let's process test_library_path
-            if Key.TEST_LIBRARY_PATH.value in self.configuration:
-              # Check if path starts with ~ and need expension
-              self.configuration[Key.TEST_LIBRARY_PATH.value] = \
-                          os.path.expanduser(self.configuration[Key.TEST_LIBRARY_PATH.value])
-
             # First let's process test_suite_path
             if Key.TEST_SUITE_PATH.value in self.configuration:
               # Check if path starts with ~ and need expension
