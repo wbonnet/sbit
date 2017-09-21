@@ -85,7 +85,6 @@ class RunTestSuite(CliCommand):
 
     # Check that the path to script library is defined (can come from config file or command line)
     if self.cfg.library:
-      print(self.cfg.configuration)
       # Check if global configuration exist, then append it to the current lib
       if self.cfg.configuration is not None and \
          Key.TEST_LIBRARY_PATH.value in self.cfg.configuration:
