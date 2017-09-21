@@ -1,5 +1,11 @@
+sbit (0.2.3-1) unstable; urgency=low
+
+  * Add multiple library path support.
+
+ -- William Bonnet <wbonnet@theitmakers.com>  Thu, 21 Sep 2017 08:23:00 +0100
+
 sbit (0.2.2-1) unstable; urgency=low
 
   * Initial release.
 
- -- illiam Bonnet <wbonnet@theitmakers.com>  Tue, 19 Sep 2017 08:31:40 +0100
+ -- William Bonnet <wbonnet@theitmakers.com>  Tue, 19 Sep 2017 08:31:40 +0100

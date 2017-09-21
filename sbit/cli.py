@@ -57,7 +57,7 @@ class Cli(object):
     """
 
     # Current version
-    self.version = "0.2.2"
+    self.version = "0.2.3"
 
     # Create the internal parser from argparse
     self.parser = argparse.ArgumentParser(description=textwrap.dedent('''\
@@ -65,8 +65,8 @@ SBIT - Simple Build In Test v''' + self.version + '''
 ----------------------------------
 
 Available commands are :
-  . ''' + Key.CHECK_LIBRARY.value + '''       Check the test scrpit library consistency
-  . ''' + Key.CHECK_SUITE.value +  '''         Check the test scrpit library consistency
+  . ''' + Key.CHECK_LIBRARY.value + '''       Check the test library consistency
+  . ''' + Key.CHECK_SUITE.value +  '''         Check the test suite consistency
   . ''' + Key.RUN_SUITE.value + '''           Execute the tests defined in the given suite file
 '''), formatter_class=argparse.RawTextHelpFormatter)
 
@@ -204,7 +204,8 @@ Available commands are :
 
     self.parser.add_argument(Key.OPT_LIBRARY.value,
                              action='store',
-                             dest=Key.LIBRARY.value,
+                             nargs='*',
+                             dest=Key.LIBRARY_PATH.value,
                              help="Path to the directory storing the test scripts")
 
     self.parser.add_argument(Key.OPT_SUITE.value,
@@ -303,7 +304,7 @@ Available commands are :
     """
 
     # Create the business object
-    command = check_library.CheckLibrary(self.cfg)
+    command = sbit.check_library.CheckLibrary(self.cfg)
 
     # Then call the dedicated method
     command.check_library()
@@ -321,7 +322,7 @@ Available commands are :
     """
 
     # Create the business object
-    command = check_testsuite.CheckTestSuite(self.cfg)
+    command = sbit.check_testsuite.CheckTestSuite(self.cfg)
 
     # Then call the dedicated method
     command.check_suite()
@@ -339,7 +340,7 @@ Available commands are :
     """
 
     # Create the business object
-    command = run_testsuite.RunTestSuite(self.cfg)
+    command = sbit.run_testsuite.RunTestSuite(self.cfg)
 
     # Then call the dedicated method
     command.run_suite()

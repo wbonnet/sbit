@@ -83,9 +83,16 @@ class RunTestSuite(CliCommand):
     self.suite = TestSuite()
     self.suite.load(self.cfg.suite)
 
+<<<<<<< HEAD
     # Check that the the to script library is defined (can come from config file or command line)
     if self.cfg.library:
       logging.debug("Using library path : " + self.cfg.library)
+=======
+    # Check that the path to script library is defined (can come from config file or command line)
+    if self.cfg.library_path:
+      for item in self.cfg.library_path:
+        logging.debug("Using library path : " + item)
+>>>>>>> ibrary path is now a list
     else:
       # Not defined on cli, thus check if defined in config file
       if not Key.TEST_LIBRARY_PATH.value in self.cfg.configuration:
