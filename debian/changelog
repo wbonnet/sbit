@@ -1,3 +1,9 @@
+sbit (0.2.4-1) unstable; urgency=low
+
+  * Improve category display when running a subcategory test.
+
+ -- William Bonnet <wbonnet@theitmakers.com>  Fri, 24 Sep 2017 08:20:00 +0100
+
 sbit (0.2.3-1) unstable; urgency=low
 
   * Add multiple library path support.

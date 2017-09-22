@@ -150,6 +150,10 @@ class RunTestSuite(CliCommand):
     # Counter used to know how many toeksn have been processed so far
     counter = 0
 
+    # Variable used to concatenate category in a path. Join on args from cli is likely to loose case
+    # Thus we use data from the YAML test fie
+    cat_to_display = ""
+
     # Iterate the full tokens array
     while counter < len(tokens):
 
@@ -162,6 +166,13 @@ class RunTestSuite(CliCommand):
         if cur[Key.CATEGORY.value].lower() == tokens[counter].lower():
           # Mark token as found
           token_was_found = True
+
+          # Push category name to disply variable
+          if len(cat_to_display) > 0:
+            # Let's add a separator if this categor is not the fist in the display variable
+            cat_to_display += ":"
+
+          cat_to_display += cur[Key.CATEGORY.value]
 
           # Update current category
           if Key.TEST_SUITE.value in cur:
@@ -190,8 +201,7 @@ class RunTestSuite(CliCommand):
       counter += 1
 
     # Category has been found. Now let's recurse...
-    print("[+] " + Colors.FG_YELLOW.value + Colors.BOLD.value + categories[0][Key.CATEGORY.value] \
-           + Colors.RESET.value)
+    print("[+] " + Colors.FG_YELLOW.value + Colors.BOLD.value + cat_to_display + Colors.RESET.value)
     print("------------------------------------")
     if Key.DESCRIPTION.value in categories[0]:
       print(" " + categories[0][Key.DESCRIPTION.value])
