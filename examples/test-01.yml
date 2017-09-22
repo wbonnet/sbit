@@ -1,0 +1,122 @@
+#
+# Tests on board CPU support (available cores, etc.)
+#
+- category: CPU
+  description: Testing H2+ CPU support
+  test:
+    - description: "Checking availability of the 4 cores"
+      script: "cpu_available_processor_count"
+      args: "4"
+  test-suite:
+    - category: Features
+      escription: CPU feature availability
+      test:
+        - description: "Feature : NEON"
+          script: "cpu_feature_is_available"
+          args: "neon"
+
+#
+# Tests on system memory (physical, gpu dedicated, etc.)
+#
+- category: Network
+  description: Testing network, interfaces and functionalities support
+  test-suite:
+    - category: Interfaces
+      description: Network interfaces availability
+      test:
+        - description: "Interface 'eth0' availability"
+          script: "net_interface_is_available"
+          args: "eth0"
+        - description: "Interface 'wlan0' availability"
+          script: "net_interface_is_available"
+          args: "wlan0"
+    - category: Features
+      description: Network features availability
+      test:
+        - description: "VLAN support"
+          script: "deb_package_is_installed"
+          args: "vlan"
+
+#
+# Tests on network (available interfaces, hardware support, etc.)
+#
+- category: Memory
+  description: Testing memory amout
+  test:
+    - description: "Available total memory"
+      script: "mem_available_physical_amount"
+      args: "507956"
+
+
+#
+# Tests on system itself. Functionality availability, loaded drivers, etc
+#
+- category: System
+  description: Testing system configuration
+  test-suite:
+    - category: Kernel
+      description: Kernel configuration
+      test:
+        - description: "Kernel /proc/config.gz is activated"
+          script: "fs_file_exist"
+          args: "/proc/config.gz"
+#
+# Tests on instaled software packages
+#
+- category: Packages
+  description: Check installed software packages (debian based)
+  test:
+    - description: "Package less is installed"
+      script: "deb_package_is_installed"
+      args: "less"
+
+#- category: Peripherals
+#  short-description:
+#  test:
+#    - script: ""
+#  test-suite:
+#- category: Storage
+#  short-description:
+#  test:
+#    - script: ""
+#  test-suite:
+#- category: Wifi
+#  short-description:
+#  test:
+#    - script: ""
+#  test-suite:
+#- category: Bluetooth
+#  short-description:
+#  test:
+#    - script: ""
+#  test-suite:
+#- category: USB
+#  short-description:
+#  test:
+#    - script: ""
+#  test-suite:
+#- category: GPIO
+#  short-description:
+#  test:
+#    - script: ""
+#  test-suite:
+#- category: Graphics
+#  short-description:
+#  test:
+#    - script: ""
+#  test-suite:
+#    - category: GPU
+#      short-description:
+#      test:
+#        - script: ""
+#      test-suite:
+#    - category: IPU
+#      short-description:
+#      test:
+#        - script: ""
+#      test-suite:
+#    - category: VPU
+#      short-description:
+#      test:
+#        - script: ""
+#      test-suite:
