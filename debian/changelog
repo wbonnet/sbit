@@ -1,3 +1,9 @@
+sbit (0.2.5-1) unstable; urgency=low
+
+  * Implements hinting.
+
+ -- William Bonnet <wbonnet@theitmakers.com>  Tue, 28 Sep 2017 08:32:00 +0100
+
 sbit (0.2.4-1) unstable; urgency=low
 
   * Improve category display when running a subcategory test.
