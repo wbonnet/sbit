@@ -31,7 +31,7 @@ config = {
     'url': 'https://github.com/wbonnet/sbit/',
     'download_url': 'https://github.com/wbonnet/sbit/',
     'author_email': 'wbonnet@theitmakers.com',
-    'version': '0.2.2',
+    'version': '0.2.6',
     'install_requires': [ 'pyyaml' ],
     'packages': ['sbit'],
     'scripts': [ 'bin/sbit' ],
