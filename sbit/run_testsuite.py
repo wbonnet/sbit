@@ -336,7 +336,8 @@ class RunTestSuite(CliCommand):
           if self.cfg.show_hints:
             test_output += "\n"
             test_output += "".join("  " for i in range(current_level))
-            test_output += "Hint : " + self.show_hints(script_path, ret)
+            test_output += "     Hint : " + self.show_hints(script_path, ret)
+            print(current_level)
 
         # Push the line to output to the message buffer only if below aggregation level
         if self.cfg.aggregation_level is None or (current_level < int(self.cfg.aggregation_level)):
