@@ -165,7 +165,7 @@ Available commands are :
     self.cfg.fail_fast = bool(self.args.fail_fast != None)
 
     # Retrieve the show hints flag
-    self.cfg.show_hints = bool(self.args.show_hints != None)
+    self.cfg.show_hints = self.args.show_hints
 
     # Create the logger object
     logging.basicConfig()

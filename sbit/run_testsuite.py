@@ -274,7 +274,7 @@ class RunTestSuite(CliCommand):
 
           # Does the file exist ?
           logging.debug("Checking if script " + script_path + " exist and is executable...")
-          if os.path.isfile(script_path) and os.access(script_path, os.X_OK):
+          if os.path.isfile(script_path) and os.access(script_path, os.X_OK | os.R_OK):
             # Yes found it, thus exit the search loop
             logging.debug("Found " + script_path)
             script_found = True
@@ -287,8 +287,9 @@ class RunTestSuite(CliCommand):
         # Script exist, we can try to execute it
         else:
           # If args are defined, concatenate to the script command line
+          script_cmd = script_path
           if Key.ARGS.value in test:
-            script_path += " " + test[Key.ARGS.value]
+            script_cmd += " " + test[Key.ARGS.value]
 
           # If the cache is activated, then store the result in the hash table
           if self.cfg.use_results_cache:
@@ -308,11 +309,11 @@ class RunTestSuite(CliCommand):
             else:
               logging.debug("Cache miss for " + test[Key.SCRIPT.value] + " " + test[Key.ARGS.value])
               logging.debug("Executing test script")
-              ret, out, err = self.execute_command(script_path)
+              ret, out, err = self.execute_command(script_cmd)
 
           else:
             # Not using cache, thus execute the test
-            ret, out, err = self.execute_command(script_path)
+            ret, out, err = self.execute_command(script_cmd)
 
         # And generate the colored result output. Green is a success, red a failure
         if ret == 0:
@@ -332,9 +333,10 @@ class RunTestSuite(CliCommand):
             logging.debug("Stderr      : " + err)
 
           # Test failed,check if hinting is activated, if yes, concatenated to output buffer
-          # if self.cfg.show_hints:
-          #   test_output += "\n"
-          #   test_output += "show hints"
+          if self.cfg.show_hints:
+            test_output += "\n"
+            test_output += "".join("  " for i in range(current_level))
+            test_output += "Hint : " + self.show_hints(script_path, ret)
 
         # Push the line to output to the message buffer only if below aggregation level
         if self.cfg.aggregation_level is None or (current_level < int(self.cfg.aggregation_level)):
@@ -404,3 +406,50 @@ class RunTestSuite(CliCommand):
 
     # Return the local test result and the subtest result
     return(success_local & success_subtest, output_msg)
+
+
+
+  # -------------------------------------------------------------------------
+  #
+  # how_hints
+  #
+  # -------------------------------------------------------------------------
+  def show_hints(self, script_path, hint_code):
+    """This method is in charge of retreiving the hint string from the script
+    givenin arguent. It assumes that the script returned a none zero value,
+    and that a hint is defined in command in the script.
+
+    Hints format are :
+    # @SBIT hint hint_code hit_message
+
+    String hint_message is searched then returned. If no hint is available,
+    an aempty string is returned.
+    """
+
+    # Check that file exists
+    if not os.path.isfile(script_path):
+      # Yes found it, thus exit the search loop
+      logging.error("Script " + script_path + " does not exist")
+      return("")
+
+    # Checkcthat file exists
+    if not os.access(script_path, os.R_OK):
+      # Yes found it, thus exit the search loop
+      logging.error("Script " + script_path + " is not readable")
+      return("")
+
+    # We can read the script, now let'search for the hint line in the file. Stop at first match
+    for line in open(script_path):
+      # Split line into individual words
+      tokens = line.split()
+
+      # Need at least five items on the line to be a match candidate
+      if len(tokens) > 4:
+        # Check that this line structure is somethin like "# @SBIT hint hint_code _hint_message"
+        if tokens[0] == "#" and tokens[1].lower() == "@sbit" and tokens[2].lower() == "hint" and \
+           tokens[3] == str(hint_code):
+          # Yes :)  ten its a match, return the end of the line
+          return(" ".join(tokens[4:]))
+
+    # Still here ? then no hint is defined, return an empty string
+    return ""
