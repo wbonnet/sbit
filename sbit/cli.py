@@ -57,7 +57,7 @@ class Cli(object):
     """
 
     # Current version
-    self.version = "0.2.5"
+    self.version = "0.2.6"
 
     # Create the internal parser from argparse
     self.parser = argparse.ArgumentParser(description=textwrap.dedent('''\
@@ -200,7 +200,7 @@ Available commands are :
                              action='store',
                              dest=Key.LOG_LEVEL.value,
                              choices=['debug', 'info', 'warning', 'error', 'critical'],
-                             help="Defines the minimal log level. Default value is  warning")
+                             help="Defines the minimal log level. Default value : warning")
 
     self.parser.add_argument(Key.OPT_LIBRARY.value,
                              action='store',
@@ -216,16 +216,16 @@ Available commands are :
     self.parser.add_argument(Key.OPT_FAIL_FAST.value,
                              action='store_true',
                              dest=Key.FAIL_FAST.value,
-                             help="If this flag is activated, sbit will stop at the first error\n"
-                                  "encountered, otherwise it will continue to run as long as\n"
-                                  "possible and will report all errors")
+                             help="If this flag is activated, sbit will stop at the first\n"
+                                  "error encountered, otherwise it will continue to run\n"
+                                  "as long as possible and will report all errors")
 
     self.parser.add_argument(Key.OPT_SHOW_HINTS.value,
                              action='store_true',
                              dest=Key.SHOW_HINTS.value,
-                             help="If this flag is activated, sbit will display hints when the\n"
-                                  "tests fails. Hints have to be defined in the tests scripts\n"
-                                  "and are optionals")
+                             help="If this flag is activated, sbit will display hints when\n"
+                                  "the tests fails. Hints have to be defined in the tests\n"
+                                  "scripts and are optionals")
 
 
   # -------------------------------------------------------------------------
@@ -291,7 +291,9 @@ Available commands are :
     self.parser.add_argument(Key.OPT_NO_RESULT_CACHE.value,
                              action='store_true',
                              dest=Key.NO_RESULT_CACHE.value,
-                             help="Deactivate script result cache (scripts can be run n times)")
+                             help="Deactivate script result cache. Scripts can be run\n"
+                                  "multiple times with the same argumets, instead of\n"
+                                  "once per arguments distinct set of values")
 
   # -------------------------------------------------------------------------
   #
