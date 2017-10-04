@@ -1,3 +1,9 @@
+sbit (0.2.6-2) unstable; urgency=low
+
+  * Fix depends.
+
+ -- William Bonnet <wbonnet@theitmakers.com>  Thu, 28 Sep 2017 19:03:00 +0100
+
 sbit (0.2.6-1) unstable; urgency=low
 
   * Fix lines over 80 chars in CLI help.

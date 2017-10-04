@@ -14,5 +14,5 @@ Package: sbit
 Architecture: all
 Depends: ${misc:Depends},
          ${python3:Depends},
-         python-yaml
+         python3-yaml
 Description: Simple Build In Tests.
