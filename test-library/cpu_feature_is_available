@@ -106,7 +106,6 @@ EXPECTED_FEATURE=$1
 # Call the setup method and check its return code is 0. Otherwise something went wrong
 setup
 ret_setup=$?
-echo ${ret_setup}
 if [ ! ${ret_setup} == 0 ]; then exit ${ret_setup} ; fi
 
 # Call the test method and stores its return code in order to use it as final exit code

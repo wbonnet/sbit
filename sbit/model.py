@@ -62,7 +62,7 @@ class Key(Enum):
   OPT_SUITE = "--suite"
   OPT_SHOW_HINTS = "--show-hints"
   OPT_NO_RESULT_CACHE = "--no-result-cache"
-  RUN_SUITE = "run-suite"
+  RUN_SUITE = "run"
   SCRIPT = "script"
   DESCRIPTION = "description"
   SUITE = "suite"

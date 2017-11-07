@@ -98,11 +98,11 @@ Available commands are :
     self.__add_parser_common()
 
     # According to the command, call the method dedicated to parse the arguments
-    if   self.command == "check-suite":
+    if   self.command == Key.CHECK_SUITE.value:
       self.__add_parser_check_suite()
-    elif self.command == "check-library":
+    elif self.command == Key.CHECK_LIBRARY.value:
       self.__add_parser_check_library()
-    elif self.command == "run-suite":
+    elif self.command == Key.RUN_SUITE.value:
       self.__add_parser_run_suite()
     elif self.command == "help":
       return self.parser.parse_args(['-h'])

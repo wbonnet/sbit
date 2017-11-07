@@ -33,7 +33,7 @@
 #
 # Argument definition
 #
-#    count : 1
+#    count : 2
 #    arg 1 : Interface to check (eg: eth0)
 #    arg 2 : IPv4 address to check
 #
