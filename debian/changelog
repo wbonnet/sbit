@@ -1,3 +1,12 @@
+sbit (0.2.7-1) unstable; urgency=low
+
+  * Add fs_directory_do_not_exist fs_file_do_not_exist 
+  * Add is_service_running ntp_remote_has_refid ntp_remote_has_stratum tests. 
+  * Fix args count in comments for a few scripts. 
+  * Hints are displayed in CYAN color
+
+ -- William Bonnet <wbonnet@theitmakers.com>  Thu, 28 Sep 2017 19:03:00 +0100
+
 sbit (0.2.6-2) unstable; urgency=low
 
   * Fix depends.

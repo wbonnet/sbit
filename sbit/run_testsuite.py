@@ -278,7 +278,7 @@ class RunTestSuite(CliCommand):
             # Yes found it, thus exit the search loop
             logging.debug("Found " + script_path)
             script_found = True
-            break;
+            break
 
         # Check that the script has been found. Loop can end without positive hit.
         if not script_found:
@@ -336,7 +336,8 @@ class RunTestSuite(CliCommand):
           if self.cfg.show_hints:
             test_output += "\n"
             test_output += "".join("  " for i in range(current_level))
-            test_output += "     " + Colors.FG_CYAN.value + "Hint : " + self.show_hints(script_path, ret) + Colors.RESET.value
+            test_output += "     " + Colors.FG_CYAN.value + "Hint : "
+            test_output += self.show_hints(script_path, ret) + Colors.RESET.value
 
         # Push the line to output to the message buffer only if below aggregation level
         if self.cfg.aggregation_level is None or (current_level < int(self.cfg.aggregation_level)):
@@ -430,13 +431,13 @@ class RunTestSuite(CliCommand):
     if not os.path.isfile(script_path):
       # Yes found it, thus exit the search loop
       logging.error("Script " + script_path + " does not exist")
-      return("")
+      return ""
 
     # Checkcthat file exists
     if not os.access(script_path, os.R_OK):
       # Yes found it, thus exit the search loop
       logging.error("Script " + script_path + " is not readable")
-      return("")
+      return ""
 
     # We can read the script, now let'search for the hint line in the file. Stop at first match
     for line in open(script_path):
@@ -449,7 +450,7 @@ class RunTestSuite(CliCommand):
         if tokens[0] == "#" and tokens[1].lower() == "@sbit" and tokens[2].lower() == "hint" and \
            tokens[3] == str(hint_code):
           # Yes :)  ten its a match, return the end of the line
-          return(" ".join(tokens[4:]))
+          return " ".join(tokens[4:])
 
     # Still here ? then no hint is defined, return an empty string
     return ""
