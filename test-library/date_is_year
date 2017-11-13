@@ -24,7 +24,7 @@
 # @SBIT description short description
 #
 # @SBIT hint  -1   Wrong number of arguments. Should be 1. Please check args in your test file
-# @SBIT hint   1   Feature is not available
+# @SBIT hint   1   Year is not the expected value. You can check current year with the date command
 #
 # -----------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@
 # Argument definition
 #
 #    count : 1
-#    arg 1 : Feature expected to be available from CPU (eg: neon)
+#    arg 1 : expected year for current date
 #
 # -----------------------------------------------------------------------------
 
@@ -75,11 +75,11 @@ setup()
 #
 do_test()
 {
-  # Retrieve the flag status
-  FEATURE=$(cat /proc/cpuinfo | grep ^Features | head -n 1 | grep -w ${EXPECTED_FEATURE} | wc -l)
+  # Check if the interface exist
+  DATE=$(date +%Y)
 
   # Compare to first args
-  if [ ! "1" == "${FEATURE}" ] ;
+  if [ ! "${DATE}" == "${EXPECTED_DATE}" ] ;
   then
     return 1
   fi
@@ -101,7 +101,7 @@ teardown()
 
 # Store command line arguments
 ARG_COUNT=$#
-EXPECTED_FEATURE=$1
+EXPECTED_DATE=$1
 
 # Call the setup method and check its return code is 0. Otherwise something went wrong
 setup

@@ -328,9 +328,9 @@ class RunTestSuite(CliCommand):
           # Output the returns to the debug log
           logging.debug("Return code : " + str(ret))
           if out is not None:
-            logging.debug("Stdout      : " + out)
+            logging.debug("Stdout      : " + str(out))
           if err is not None:
-            logging.debug("Stderr      : " + err)
+            logging.debug("Stderr      : " + str(err))
 
           # Test failed,check if hinting is activated, if yes, concatenated to output buffer
           if self.cfg.show_hints:

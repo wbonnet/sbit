@@ -24,7 +24,10 @@
 # @SBIT description short description
 #
 # @SBIT hint  -1   Wrong number of arguments. Should be 1. Please check args in your test file
-# @SBIT hint   1   Feature is not available
+# @SBIT hint   1   Process is not running
+# @SBIT hint   2   More than one instance of process is running
+# @SBIT hint   3   Process is running, but is in Zombie state
+# @SBIT hint   4   Process is running, but is in Dead state
 #
 # -----------------------------------------------------------------------------
 
@@ -33,7 +36,7 @@
 # Argument definition
 #
 #    count : 1
-#    arg 1 : Feature expected to be available from CPU (eg: neon)
+#    arg 1 : expected process name (binary name without full path)
 #
 # -----------------------------------------------------------------------------
 
@@ -42,7 +45,7 @@
 # -----------------------------------------------------------------------------
 
 # Activate "fail fast". Stop on first error encountered.
-set -e
+# set -e
 
 #
 # Method used to setup the test environment. You should do any initialisation,
@@ -75,14 +78,38 @@ setup()
 #
 do_test()
 {
-  # Retrieve the flag status
-  FEATURE=$(cat /proc/cpuinfo | grep ^Features | head -n 1 | grep -w ${EXPECTED_FEATURE} | wc -l)
+  # Check if the pid exist
+  PROCESS_COUNT=$(pidof ${EXPECTED_PROCESS} | wc -w)
 
   # Compare to first args
-  if [ ! "1" == "${FEATURE}" ] ;
+  if [ "${PROCESS_COUNT}" == "0" ] ;
   then
     return 1
   fi
+
+  if [ ! "${PROCESS_COUNT}" == "1" ] ;
+  then
+    return 2
+  fi
+
+  # Check if the interface exist
+  PROCESS_IDS=$(pidof ${EXPECTED_PROCESS})
+
+  # Iterate the list of PIDs and search for the one matching arguments
+  for PID in ${PROCESS_IDS} ;
+  do
+      MATCH=$(ps axo pid,stat | grep ${PID} | grep Z)
+      if [ "${MATCH}" != "" ] ;
+      then
+        return 3
+      fi
+
+      MATCH=$(ps axo pid,stat | grep ${PID} | grep D)
+      if [ "${MATCH}" != "" ] ;
+      then
+        return 4
+      fi
+  done
 
   # Main exit, no error detected, return 0
   return 0
@@ -101,7 +128,7 @@ teardown()
 
 # Store command line arguments
 ARG_COUNT=$#
-EXPECTED_FEATURE=$1
+EXPECTED_PROCESS=$1
 
 # Call the setup method and check its return code is 0. Otherwise something went wrong
 setup

@@ -1,3 +1,9 @@
+sbit (0.2.8-1) unstable; urgency=low
+
+  * Add several test scripts
+
+ -- William Bonnet <wbonnet@theitmakers.com>  Sun, 12 Oct 2017 19:03:00 +0100
+
 sbit (0.2.7-1) unstable; urgency=low
 
   * Add fs_directory_do_not_exist fs_file_do_not_exist 
