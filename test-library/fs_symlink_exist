@@ -32,7 +32,6 @@
 #
 # Argument definition
 #
-#    count : 1
 #    arg 1 : Symlink to check for existence
 #
 # -----------------------------------------------------------------------------

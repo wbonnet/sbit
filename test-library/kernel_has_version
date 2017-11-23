@@ -32,7 +32,6 @@
 #
 # Argument definition
 #
-#    count : 1
 #    arg 1 : Expected kernel version (eg: #1 SMP Debian 4.9.51-1 (2017-09-28))
 #
 # -----------------------------------------------------------------------------

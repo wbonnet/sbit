@@ -32,7 +32,6 @@
 #
 # Argument definition
 #
-#    count : 1
 #    arg 1 : Feature expected to be available from CPU (eg: neon)
 #
 # -----------------------------------------------------------------------------

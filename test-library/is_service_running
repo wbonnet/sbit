@@ -31,7 +31,6 @@
 #
 # Argument definition
 #
-#    count : 1
 #    arg 1 : The name of the service to check for status
 #
 # -----------------------------------------------------------------------------

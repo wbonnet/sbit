@@ -32,7 +32,6 @@
 #
 # Argument definition
 #
-#    count : 1
 #    arg 1 : Expected number of core (eg: 2 for a dual core system)
 #
 # -----------------------------------------------------------------------------

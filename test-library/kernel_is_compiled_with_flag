@@ -32,7 +32,6 @@
 #
 # Argument definition
 #
-#    count : 1
 #    arg 1 : Flag expected to be available from CPU (eg: CONFIG_FOO=y)
 #
 # -----------------------------------------------------------------------------

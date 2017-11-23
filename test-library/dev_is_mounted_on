@@ -35,7 +35,6 @@
 #
 # Argument definition
 #
-#    count : 2
 #    arg 1 : Device to check
 #    arg 2 : Expected mount point
 #

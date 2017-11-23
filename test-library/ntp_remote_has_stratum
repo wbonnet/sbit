@@ -34,7 +34,6 @@
 #
 # Argument definition
 #
-#    count : 2
 #    arg 1 : expected source
 #    arg 2 : expected stratum
 #

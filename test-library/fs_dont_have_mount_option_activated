@@ -34,7 +34,6 @@
 #
 # Argument definition
 #
-#    count : 2
 #    arg 1 : Filesystem to check
 #    arg 2 : Mount option
 #

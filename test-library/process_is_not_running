@@ -32,7 +32,6 @@
 #
 # Argument definition
 #
-#    count : 1
 #    arg 1 : expected process name (binary name without full path)
 #
 # -----------------------------------------------------------------------------

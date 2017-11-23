@@ -32,7 +32,6 @@
 #
 # Argument definition
 #
-#    count : 1
 #    arg 1 : Interface to check for existence (eg: eth0)
 #
 # -----------------------------------------------------------------------------

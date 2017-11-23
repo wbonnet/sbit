@@ -34,7 +34,6 @@
 #
 # Argument definition
 #
-#    count : 2
 #    arg 1 : IP address or hostname to ping
 #    arg 2 : (optional) Packet size
 #
