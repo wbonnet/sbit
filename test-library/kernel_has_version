@@ -74,8 +74,8 @@ setup()
 #
 do_test()
 {
-  # Check if the filesystem exist in /proc
-  VERSION=$(uname -v)
+  # Retrieve the kernel version
+  VERSION=$(uname -r)
 
   # Compare to first args
   if [ ! "${EXPECTED_VERSION}" == "${VERSION}" ] ;
