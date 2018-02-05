@@ -1,3 +1,9 @@
+sbit (0.2.9-1) unstable; urgency=low
+
+  * Add several test scripts
+
+ -- William Bonnet <wbonnet@theitmakers.com>  Mon, 05 Feb 2018 13:33:00 +0100
+
 sbit (0.2.8-1) unstable; urgency=low
 
   * Add several test scripts
