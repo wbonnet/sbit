@@ -76,7 +76,7 @@ setup()
 do_test()
 {
   # Check if the interface exist
-  STRATUM=$(ntpq -p | grep "^.${EXPECTED_REMOTE}" | awk '{ print $2 }')
+  STRATUM=$(ntpq -p | grep "^.${EXPECTED_REMOTE}" | awk '{ print $3 }')
   if [ ! "${STRATUM}" == "${EXPECTED_STRATUM}" ] ;
   then
     return 1
