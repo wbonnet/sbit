@@ -14,5 +14,6 @@ Package: sbit
 Architecture: all
 Depends: ${misc:Depends},
          ${python3:Depends},
+         libxml2-utils,
          python3-yaml
 Description: Simple Build In Tests.
