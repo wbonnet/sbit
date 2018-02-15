@@ -1,3 +1,9 @@
+sbit (0.3.1-1) unstable; urgency=low
+
+  * Fix NTP unit tests
+
+ -- William Bonnet <wbonnet@theitmakers.com>  Thu, 15 Feb 2018 13:43:00 +0100
+
 sbit (0.3.0-1) unstable; urgency=low
 
   * Fix NTP unit tests
