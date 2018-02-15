@@ -25,8 +25,6 @@
 #
 # @SBIT hint  -1   Wrong number of arguments. Should be 1. Please check args in your test file
 # @SBIT hint   1   Refid is not as expected. You should check manually output of ntpq -p
-# @SBIT hint   2   Remote source is not known or used. You should check the server definition in /etc/ntp.conf
-# @SBIT hint   3   Remote source is used more than once. It should not happen. Please check the outpout of the ntpq -p command, and the server definition in /etc/ntp.conf
 #
 # -----------------------------------------------------------------------------
 
@@ -77,24 +75,11 @@ setup()
 #
 do_test()
 {
-  # Check if the interface exist
-  REMOTE_COUNT=$(ntpq -p | grep ${EXPECTED_REMOTE} | wc -l)
-
-  # Compare to first args
-  if [ "${REMOTE_COUNT}" == "0" ] ;
-  then
-    return 2
-  fi
-
-  if [ ! "${REMOTE_COUNT}" == "1" ] ;
-  then
-    return 3
-  fi
-
-  REFID=$(ntpq -p | grep ${EXPECTED_REMOTE} | awk '{ print $2 }')
+  # Retrieve the refid for source matching remote ip
+  REFID=$(ntpq -p | grep "^.${EXPECTED_REMOTE}" | awk '{ print $2 }')
   if [ ! "${REFID}" == "${EXPECTED_REFID}" ] ;
   then
-    return 3
+    return 1
   fi
 
   # Main exit, no error detected, return 0
