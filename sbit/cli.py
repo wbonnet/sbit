@@ -33,6 +33,7 @@ from sbit.model import Configuration
 from sbit import run_testsuite
 from sbit import check_testsuite
 from sbit import check_library
+from sbit import release
 # import sbit.run_testsuite
 # import sbit.check_testsuite
 # import sbit.check_library
@@ -56,12 +57,9 @@ class Cli(object):
     """Default constructor
     """
 
-    # Current version
-    self.version = "0.2.7"
-
     # Create the internal parser from argparse
     self.parser = argparse.ArgumentParser(description=textwrap.dedent('''\
-SBIT - Simple Build In Test v''' + self.version + '''
+SBIT - Simple Build In Test v''' + release.__version__ + '''
 ----------------------------------
 
 Available commands are :
@@ -213,19 +211,6 @@ Available commands are :
                              dest=Key.SUITE.value,
                              help="File containing the test suite (YAML format)")
 
-    self.parser.add_argument(Key.OPT_FAIL_FAST.value,
-                             action='store_true',
-                             dest=Key.FAIL_FAST.value,
-                             help="If this flag is activated, sbit will stop at the first\n"
-                                  "error encountered, otherwise it will continue to run\n"
-                                  "as long as possible and will report all errors")
-
-    self.parser.add_argument(Key.OPT_SHOW_HINTS.value,
-                             action='store_true',
-                             dest=Key.SHOW_HINTS.value,
-                             help="If this flag is activated, sbit will display hints when\n"
-                                  "the tests fails. Hints have to be defined in the tests\n"
-                                  "scripts and are optionals")
 
 
   # -------------------------------------------------------------------------
@@ -294,6 +279,29 @@ Available commands are :
                              help="Deactivate script result cache. Scripts can be run\n"
                                   "multiple times with the same argumets, instead of\n"
                                   "once per arguments distinct set of values")
+
+    self.parser.add_argument(Key.OPT_FAIL_FAST.value,
+                             action='store_true',
+                             dest=Key.FAIL_FAST.value,
+                             help="If this flag is activated, sbit will stop at the first\n"
+                                  "error encountered, otherwise it will continue to run\n"
+                                  "as long as possible and will report all errors")
+
+    self.parser.add_argument(Key.OPT_ONLY_ERRORS.value,
+                             action='store_true',
+                             dest=Key.ONLY_ERRORS.value,
+                             help="If this flag is activated, sbit will output only failed\n"
+                                  "tests. Success are taken in account, but not displayed\n"
+                                  "to reduce output verbosity")
+
+    self.parser.add_argument(Key.OPT_SHOW_HINTS.value,
+                             action='store_true',
+                             dest=Key.SHOW_HINTS.value,
+                             help="If this flag is activated, sbit will display hints when\n"
+                                  "the tests fails. Hints have to be defined in the tests\n"
+                                  "scripts and are optional")
+
+
 
   # -------------------------------------------------------------------------
   #

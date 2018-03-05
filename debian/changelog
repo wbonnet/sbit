@@ -1,3 +1,12 @@
+sbit (0.3.2-1) unstable; urgency=low
+
+  * Add missing options in help output
+  * Add --errors-only option to output only errors in display
+  * Errors are now bolded
+  * A few typo fixing in comments
+
+ -- William Bonnet <wbonnet@theitmakers.com>  Mon, 05 Mar 2018 09:09:00 +0100
+
 sbit (0.3.1-1) unstable; urgency=low
 
   * Fix NTP unit tests
@@ -24,9 +33,9 @@ sbit (0.2.8-1) unstable; urgency=low
 
 sbit (0.2.7-1) unstable; urgency=low
 
-  * Add fs_directory_do_not_exist fs_file_do_not_exist 
-  * Add is_service_running ntp_remote_has_refid ntp_remote_has_stratum tests. 
-  * Fix args count in comments for a few scripts. 
+  * Add fs_directory_do_not_exist fs_file_do_not_exist
+  * Add is_service_running ntp_remote_has_refid ntp_remote_has_stratum tests.
+  * Fix args count in comments for a few scripts.
   * Hints are displayed in CYAN color
 
  -- William Bonnet <wbonnet@theitmakers.com>  Thu, 28 Sep 2017 19:03:00 +0100

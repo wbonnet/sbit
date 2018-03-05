@@ -18,6 +18,8 @@
 #
 #
 
+from sbit.release import __version__, __author__, __author_email__
+
 try:
     from setuptools import setup
 
@@ -27,11 +29,11 @@ except ImportError:
 config = {
     'description': 'Simple Buid In Tests',
     'long_description': 'SBIT is a tool designed to run Simple Build In Tests. Tests are defined in a YAML file describing a hierchical structure of tests. Tests themselves are bash scripts stored in a test library',
-    'author': 'William Bonnet',
+    'author': __author__,
     'url': 'https://github.com/wbonnet/sbit/',
     'download_url': 'https://github.com/wbonnet/sbit/',
-    'author_email': 'wbonnet@theitmakers.com',
-    'version': '0.2.6',
+    'author_email': __author_email__,
+    'version': __version__,
     'install_requires': [ 'pyyaml' ],
     'packages': ['sbit'],
     'scripts': [ 'bin/sbit' ],

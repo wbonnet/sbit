@@ -246,22 +246,6 @@ class RunTestSuite(CliCommand):
       for test in category[Key.TEST.value]:
         # Initialize local variables
         ret = -1
-        test_output = ""
-
-        # Generate the output message describing the current test
-        test_output = "".join("  " for i in range(current_level))
-
-        # Check if there is a test description in the YAML file
-        if Key.DESCRIPTION.value in test:
-          # YEs, thus out the description
-          test_output += "   - " + test[Key.DESCRIPTION.value]
-        else:
-          # No description available, thus default to outputing the test script name
-          test_output += "   - Running : " + test[Key.SCRIPT.value]
-
-        # Concatenate the current test informaton to the output
-        test_output += "".join(" " for i in range(Key.OUTPUT_RESULT_PADDING.value - \
-                               len(test_output)))
 
         # Now, let's generate the path to the real test. Let'siterate all the path from
         # the library. User defined path have been inserted to head of the array.
@@ -314,6 +298,34 @@ class RunTestSuite(CliCommand):
           else:
             # Not using cache, thus execute the test
             ret, out, err = self.execute_command(script_cmd)
+
+        # Output generation is moved after test execution to be able to output failed test in bold
+        # And filter output using the --errors-only flag.
+        test_output = ""
+
+        # Generate the output message describing the current test
+        test_output = "".join("  " for i in range(current_level))
+
+        # Output the BOLD ANSI sequence
+        if ret != 0:
+          test_output += Colors.FG_RED.value
+
+        # Check if there is a test description in the YAML file
+        if Key.DESCRIPTION.value in test:
+          # YEs, thus out the description
+          test_output += "   - " + test[Key.DESCRIPTION.value]
+        else:
+          # No description available, thus default to outputing the test script name
+          test_output += "   - Running : " + test[Key.SCRIPT.value]
+
+
+        # Output the RESET ANSI sequence
+        if ret != 0:
+          test_output += Colors.RESET.value
+
+        # Concatenate the current test informaton to the output
+        test_output += "".join(" " for i in range(Key.OUTPUT_RESULT_PADDING.value - \
+                               len(test_output)))
 
         # And generate the colored result output. Green is a success, red a failure
         if ret == 0:

@@ -25,9 +25,13 @@ cli targets.
 import subprocess
 from sbit.model import Key
 
+
+
+# -----------------------------------------------------------------------------
 #
 #    Class CliCommand
 #
+# -----------------------------------------------------------------------------
 class CliCommand(object):
   """This class implements the base class used for all command from cli
 
@@ -48,7 +52,7 @@ class CliCommand(object):
     # configuration and definition used by the different stage of
     # the tool execution
     self.cfg = configuration
-
+    
 
 
   # -------------------------------------------------------------------------
