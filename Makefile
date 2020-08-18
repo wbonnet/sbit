@@ -88,3 +88,4 @@ upload:
 		echo "        Variable SBIT_DEB_UPLOAD_USER is not set, please define it your shell environment." ; \
 	fi ;
 	scp $(PKG_DIR)/*.deb $(PKG_DIR)/*.buildinfo $(PKG_DIR)/*.orig.tar.gz $(PKG_DIR)/*.changes $(SBIT_DEB_UPLOAD_USER)@$(SBIT_DEB_UPLOAD_SERVER):$(SBIT_DEB_UPLOAD_PATH) ;
+
