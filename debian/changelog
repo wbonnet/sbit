@@ -1,3 +1,9 @@
+sbit (0.4.0-1) unstable; urgency=low
+
+  * Add missing Makefile packaging targets
+
+ -- William Bonnet <wbonnet@theitmakers.com>  Mon, 17 Aug 2020 19:32:00 +0100
+
 sbit (0.3.2-1) unstable; urgency=low
 
   * Add missing options in help output

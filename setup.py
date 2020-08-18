@@ -8,14 +8,13 @@
 # License.
 #
 #
-# Copyright 2016 William Bonnet.
+# Copyright 2017 SBIT project (http://www.firmwaretoolkit.org).
 # All rights reserved. Use is subject to license terms.
 #
 #
 # Contributors list :
 #
-#    William Bonnet 	wbonnet@theitmakers.com
-#
+#    William Bonnet     wllmbnnt@gmail.com, wbonnet@theitmakers.com
 #
 
 from sbit.release import __version__, __author__, __author_email__

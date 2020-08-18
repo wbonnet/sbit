@@ -8,7 +8,7 @@
 # License.
 #
 #
-# Copyright 2017 DFT project (http://www.debianfirmwaretoolkit.org).
+# Copyright 2017 DFT project (https://www.firmwaretoolkit.org).
 # All rights reserved. Use is subject to license terms.
 #
 #
@@ -21,7 +21,7 @@
 # Defines the list of path to the test library to be used. By modifying this value,
 # the default path will be overriden (default is /usr/share/sbit/test-library)
 # and replaced by the value set in the test_library_path variable.
-test_library_path: 
+test_library_path:
   - "/usr/share/sbit/test-library"
 
 # The variable aggregation_level defines the default value of the aggregation

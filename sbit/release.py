@@ -8,14 +8,13 @@
 # License.
 #
 #
-# Copyright 2017 DFT project (http://www.debianfirmwaretoolkit.org).
+# Copyright 2017 SBIT project (http://www.firmwaretoolkit.org).
 # All rights reserved. Use is subject to license terms.
 #
 #
 # Contributors list :
 #
 #    William Bonnet     wllmbnnt@gmail.com, wbonnet@theitmakers.com
-#
 #
 
 """ This module contains the definition of all global variables used to define
@@ -26,6 +25,6 @@ This information is intented to be used in the setup.py file, and cli.py (displa
 program version), etc.
 """
 
-__version__ = '0.3.2'
+__version__ = '0.4.0'
 __author__ = 'William Bonnet'
 __author_email__ = 'wbonnet@theitmakers.com'

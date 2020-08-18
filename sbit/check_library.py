@@ -8,14 +8,13 @@
 # License.
 #
 #
-# Copyright 2017 DFT project (http://www.debianfirmwaretoolkit.org).
+# Copyright 2017 SBIT project (http://www.firmwaretoolkit.org).
 # All rights reserved. Use is subject to license terms.
 #
 #
 # Contributors list :
 #
 #    William Bonnet     wllmbnnt@gmail.com, wbonnet@theitmakers.com
-#
 #
 
 

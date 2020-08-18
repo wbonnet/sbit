@@ -8,14 +8,13 @@
 # License.
 #
 #
-# Copyright 2017 DFT project (http://www.debianfirmwaretoolkit.org).
+# Copyright 2017 SBIT project (http://www.firmwaretoolkit.org).
 # All rights reserved. Use is subject to license terms.
 #
 #
 # Contributors list :
 #
 #    William Bonnet     wllmbnnt@gmail.com, wbonnet@theitmakers.com
-#
 #
 
 """ This module contains the class and the methods used to crate parsers dedicated to the
@@ -64,7 +63,7 @@ SBIT - Simple Build In Test v''' + release.__version__ + '''
 
 Available commands are :
   . ''' + Key.CHECK_LIBRARY.value + '''       Check the test library consistency
-  . ''' + Key.CHECK_SUITE.value +  '''         Check the test suite consistency
+  . ''' + Key.CHECK_SUITE.value +  '''        Check the test suite consistency
   . ''' + Key.RUN_SUITE.value + '''           Execute the tests defined in the given suite file
 '''), formatter_class=argparse.RawTextHelpFormatter)
 
